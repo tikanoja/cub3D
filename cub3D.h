@@ -14,7 +14,7 @@
 typedef struct s_data
 {
     int fd;
-    int wall[4]; //north, east, south, west fd vai path????
+    char **wall; //north, east, south, west
     int floor[3]; //r, g, b
     int sky[3]; //r, g, b
     char **map;
@@ -47,6 +47,11 @@ typedef struct s_img
 	int				llen;
 	int				en;
 }				t_img;
+
+//errors.c
+void free_data(t_data *data, char *msg);
+void free_char_arr(char **arr);
+void exitmsg(char *msg);
 
 //map_parser.c
 void    map_parser(t_data *data);
