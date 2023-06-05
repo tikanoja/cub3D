@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:26:54 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/05 18:51:36 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:01:24 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ int	check_for_direction(t_data *data, char *line)
 	}
 	while(is_it_whitespace(*save) == 1)
 		save++;
-	if (strncmp(line , "NO", 3) && !dupcheck(data->wall[0], line, data) \
+	if (ft_strncmp(line , "NO", 2) == 0 && !dupcheck(data->wall[0], line, data) \
 	&& change_happened(&happened))
 		data->wall[0] = ft_strdup(trim_direction(save));
-	else if (strncmp(line , "EA", 3) && !dupcheck(data->wall[1], line, data) \
+	else if (ft_strncmp(line , "EA", 2) == 0 && !dupcheck(data->wall[1], line, data) \
 	&& change_happened(&happened))
 		data->wall[1] = ft_strdup(trim_direction(save));
-	else if (strncmp(line , "SO", 3) && !dupcheck(data->wall[2], line, data) \
+	else if (ft_strncmp(line , "SO", 2) == 0 && !dupcheck(data->wall[2], line, data) \
 	&& change_happened(&happened))
 		data->wall[2] = ft_strdup(trim_direction(save));
-	else if (strncmp(line , "WE", 3) && !dupcheck(data->wall[3], line, data) \
+	else if (ft_strncmp(line , "WE", 2) == 0 && !dupcheck(data->wall[3], line, data) \
 	&& change_happened(&happened))
 		data->wall[3] = ft_strdup(trim_direction(save));
 	free(save);
@@ -76,12 +76,13 @@ void	split_colors(char **temp, int *data)
 		data[i] = ft_atoi(temp[i]);
 		free(temp[i]);
 		i++;
-	}	
+	}
 }
-void free_color_args(char **temp, t_data *data, char *color)
+void free_color_args(char **temp, t_data *data)
 {
 	free_char_arr(temp);
-	free(color);
+	// if (color)
+	// 	free(color);
 	free_data(data, "Wrong color argument!\n");
 }
 
@@ -101,6 +102,8 @@ int check_for_correct_number(char *num)
 		return (1);
 	while(num[i])
 	{
+		if (num[i] == '\0')
+			break ;
 		if (check_for_num(num[i]) == 1)
 			return (1);
 		i++;
@@ -110,7 +113,7 @@ int check_for_correct_number(char *num)
 	return (0);
 }
 
-void	check_for_color_argument(char **temp, t_data *data, char *color)
+void	check_for_color_argument(char **temp, t_data *data)
 {
 	int	i;
 
@@ -118,9 +121,9 @@ void	check_for_color_argument(char **temp, t_data *data, char *color)
 	while (temp[i])
 	{
 		if (i > 3)
-			free_color_args(temp, data, color);
+			free_color_args(temp, data);
 		else if (check_for_correct_number(temp[i]) == 1)
-			free_color_args(temp, data, color);
+			free_color_args(temp, data);
 		i++;
 	}
 }
@@ -139,9 +142,9 @@ void	trim_and_split_color(t_data *data, char *color, int flag)
 		free(color);
 		free_data(data, "Malloc failed!\n");
 	}
-	while(temp[i])
-		i++;
-	check_for_color_argument(temp, data, color);
+	if (temp[2])
+		temp[2][ft_strlen(temp[2]) - 1] = '\0'; 
+	check_for_color_argument(temp, data);
 	if (flag == 1)
 		split_colors(temp, data->floor);
 	else
@@ -161,13 +164,13 @@ int	check_for_color(t_data *data, char *line)
 	}
 	while (is_it_whitespace(*save) == 1)
 		save++;
-	if (strncmp(line , "F", 3))
+	if (ft_strncmp(line , "F", 1) == 0)
 	{
 		trim_and_split_color(data, save, 1);
 		free(save);
 		return (1);
 	}
-	else if (strncmp(line , "C", 3))
+	else if (ft_strncmp(line , "C", 1) == 0)
 	{
 		trim_and_split_color(data, save, 2);
 		free(save);
@@ -184,7 +187,7 @@ int check_if_filled(t_data *data, int hap)
 	i = 0;
 	while (data->wall[i])
 		i++;
-	if (data->floor[0] && data->sky[0] && i == 3)
+	if (data->floor[0] && data->sky[0] && i == 4)
 		return (1);
 	else if (hap == 0)
 		return (-1);
@@ -202,16 +205,14 @@ int	fill_to_struct(t_data *data, char *line)
 	if (status == 0)
 	{
 		happened += check_for_direction(data, line);
-		happened += check_for_color(data, line);
-		status = check_if_filled(data, happened);
-	}
+		if (happened == 0)
+			happened += check_for_color(data, line);
+		status = check_if_filled(data, happened);	}
 	if (status == -1)
 	{
 		free(line);
 		free_data(data, "Garbage values\n");
 	}
-	// else
-	// 	fill_map(data, line);
 	return (status);
 }
 
@@ -252,7 +253,14 @@ char	*ft_strjoin_map(char *s1, char *s2)
 	ns[j] = '\0';
 	return (ns);
 }
-
+void init_wall(t_data *data)
+{
+	data->wall[0] = NULL;
+	data->wall[1] = NULL;
+	data->wall[2] = NULL;
+	data->wall[3] = NULL;
+	data->wall[4] = NULL;
+}
 
 void	map_parser(t_data *data)
 {
@@ -263,20 +271,20 @@ void	map_parser(t_data *data)
 	filled = 0;
 	line = NULL;
 	map = NULL;
+	data->map = NULL;
 	data->wall = malloc(sizeof(char *) * 5);
 	if (data->wall == NULL)
 		free_data(data, "Malloc failed!\n");
-	data->wall[4] = NULL;
 	line = get_next_line(data->fd);
 	if (line == NULL)
 		free_data(data, "Malloc failed!\n");
+	init_wall(data);
 	while (line != NULL)
 	{
 		if (check_empty_line(line) != 1 && filled == 0)
 			filled = fill_to_struct(data, line);
 		else if (check_empty_line(line) != 1 && filled == 1)
 			map = ft_strjoin_map(map, line);
-		printf("%s\n", line);
 		free(line);
 		line = get_next_line(data->fd);
 	}
