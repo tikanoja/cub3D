@@ -1,8 +1,8 @@
 NAME = cub3D
 
-SRC = ./main.c arg_checker.c
+SRC = ./main.c arg_checker.c map_parser.c
 
-OBJ = ./main.o arg_checker.o
+OBJ = ./main.o arg_checker.o map_parser.o
 
 HEADERS = -I ./mlx
 

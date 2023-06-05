@@ -8,9 +8,48 @@
 # include <mlx.h> //unfortunately you already know
 # include <fcntl.h> //open
 # include "./libft/libft.h"
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 640
+# define WIN_H 400
 
+typedef struct s_data
+{
+    int fd;
+    int wall[4]; //north, east, south, west fd vai path????
+    int floor[3]; //r, g, b
+    int sky[3]; //r, g, b
+    char **map;
+}               t_data;
+
+typedef struct s_bres
+{
+	int	x;
+	int	y;
+	int	dx;
+	int	dy;
+	int	stepy;
+	int	stepx;
+	int	error;
+	int	e2;
+}				t_bres;
+
+typedef struct s_mlxinfo
+{
+	void			*mlx_ptr;
+	void			*mlx_win;
+	void			*currentimg;
+}				t_mlxinfo;
+
+typedef struct s_img
+{
+	void			*img;
+	char			*addr;
+	int				bpp;
+	int				llen;
+	int				en;
+}				t_img;
+
+//map_parser.c
+void    map_parser(t_data *data);
 
 //arg_checker.c
 int    get_fd(char *map);
