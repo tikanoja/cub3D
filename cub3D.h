@@ -61,6 +61,7 @@ typedef struct t_master
 	t_data			data;
 	t_mlxinfo		mlx;
 	t_img			img;
+	t_coords		coords;
 }				t_master;
 
 //errors.c
