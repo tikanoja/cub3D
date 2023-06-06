@@ -61,10 +61,37 @@ void printmap(t_data data)
 	}
 }
 
+void	draw_minimap(t_master *master, t_img *img)
+{
+	int x;
+	int y;
+	int block;
+
+	x = WIN_W / master->data.mapsize[0];
+	y = WIN_H / master->data.mapsize[1];
+	if (x <= y)
+		block = x;
+	else
+		block = y;
+	x = 0;
+	y = 0;
+	while(y < block * master->data.mapsize[1])
+	{
+		while (x < block * master->data.mapsize[0])
+		{
+			my_mlx_pixel_put(img, x, y, 0xB2497F);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
+
 void	run_cub3d(t_master master)
 {
 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
+	draw_minimap(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
 	mlx_key_hook(master.mlx.mlx_win, key_hook, &master.mlx);
 	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
@@ -108,7 +135,7 @@ int main(int ac, char **av)
     map_parser(&master.data);
 	get_map_size(&master.data);
     //map validity check
-	//printmap(master.data);
+	printmap(master.data);
 	init_mlx(&master);
 	run_cub3d(master);
     return (0);

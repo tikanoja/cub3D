@@ -8,8 +8,8 @@
 # include <mlx.h> //unfortunately you already know
 # include <fcntl.h> //open
 # include "./libft/libft.h"
-# define WIN_W 640
-# define WIN_H 400
+# define WIN_W 1920
+# define WIN_H 1080
 
 typedef struct s_data
 {
@@ -63,6 +63,9 @@ typedef struct t_master
 	t_img			img;
 	t_coords		coords;
 }				t_master;
+
+//draw.c
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //errors.c
 void free_data(t_data *data, char *msg);
