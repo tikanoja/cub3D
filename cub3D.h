@@ -16,7 +16,9 @@ typedef struct s_data
     int fd;
     char **wall; //north, east, south, west
     int floor[3]; //r, g, b
+	unsigned int f_int;
     int sky[3]; //r, g, b
+	unsigned int s_int;
     char **map;
 	int mapsize[2]; //wid, hei
 }               t_data;
@@ -74,6 +76,7 @@ void exitmsg(char *msg);
 
 //map_parser.c
 void    map_parser(t_data *data);
+int		rgb_to_int(int rgb[3]);
 
 //arg_checker.c
 int    get_fd(char *map);

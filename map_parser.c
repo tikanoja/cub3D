@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:26:54 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/05 20:01:24 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:28:23 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,13 @@ void init_parsing(t_data *data)
 	data->sky[1] = -1;
 	data->sky[2] = -1;
 }
+int rgb_to_int(int rgb[3]) 
+{
+    int combinedValue;
+    
+	combinedValue = rgb[0] * 65536 + rgb[1] * 256 + rgb[2];
+	return (combinedValue);
+}
 
 void	map_parser(t_data *data)
 {
@@ -301,4 +308,6 @@ void	map_parser(t_data *data)
 	free(map);
 	if (data->map == NULL)
 		free_data(data, "Malloc failed!\n");
+	data->f_int = rgb_to_int(data->floor);
+	data->s_int = rgb_to_int(data->sky);	
 }
