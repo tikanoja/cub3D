@@ -18,6 +18,7 @@ typedef struct s_data
     int floor[3]; //r, g, b
     int sky[3]; //r, g, b
     char **map;
+	int mapsize[2]; //wid, hei
 }               t_data;
 
 typedef struct s_bres
@@ -47,6 +48,13 @@ typedef struct s_img
 	int				llen;
 	int				en;
 }				t_img;
+
+typedef struct t_master
+{
+	t_data			data;
+	t_mlxinfo		mlx;
+	t_img			img;
+}				t_master;
 
 //errors.c
 void free_data(t_data *data, char *msg);

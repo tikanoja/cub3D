@@ -180,6 +180,7 @@ int	check_for_color(t_data *data, char *line)
 	return (0);
 }
 
+
 int check_if_filled(t_data *data, int hap)
 {
 	int i;
@@ -187,7 +188,7 @@ int check_if_filled(t_data *data, int hap)
 	i = 0;
 	while (data->wall[i])
 		i++;
-	if (data->floor[0] && data->sky[0] && i == 4)
+	if (data->floor[0] != -1 && data->sky[0] != -1 && i == 4)
 		return (1);
 	else if (hap == 0)
 		return (-1);
@@ -207,7 +208,8 @@ int	fill_to_struct(t_data *data, char *line)
 		happened += check_for_direction(data, line);
 		if (happened == 0)
 			happened += check_for_color(data, line);
-		status = check_if_filled(data, happened);	}
+		status = check_if_filled(data, happened);
+	}
 	if (status == -1)
 	{
 		free(line);
@@ -253,13 +255,19 @@ char	*ft_strjoin_map(char *s1, char *s2)
 	ns[j] = '\0';
 	return (ns);
 }
-void init_wall(t_data *data)
+void init_parsing(t_data *data)
 {
 	data->wall[0] = NULL;
 	data->wall[1] = NULL;
 	data->wall[2] = NULL;
 	data->wall[3] = NULL;
 	data->wall[4] = NULL;
+	data->floor[0] = -1;
+	data->floor[1] = -1;
+	data->floor[2] = -1;
+	data->sky[0] = -1;
+	data->sky[1] = -1;
+	data->sky[2] = -1;
 }
 
 void	map_parser(t_data *data)
@@ -278,7 +286,7 @@ void	map_parser(t_data *data)
 	line = get_next_line(data->fd);
 	if (line == NULL)
 		free_data(data, "Malloc failed!\n");
-	init_wall(data);
+	init_parsing(data);
 	while (line != NULL)
 	{
 		if (check_empty_line(line) != 1 && filled == 0)
