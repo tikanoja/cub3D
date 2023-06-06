@@ -21,6 +21,13 @@ typedef struct s_data
 	int mapsize[2]; //wid, hei
 }               t_data;
 
+typedef struct s_coords
+{
+	int x;
+	int y;
+	int angle;
+}				t_coords;
+
 typedef struct s_bres
 {
 	int	x;

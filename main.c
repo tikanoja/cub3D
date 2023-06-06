@@ -63,8 +63,6 @@ void printmap(t_data data)
 
 void	run_cub3d(t_master master)
 {
-	master.mlx.mlx_ptr = mlx_init();
-	master.mlx.mlx_win = mlx_new_window(master.mlx.mlx_ptr, WIN_W, WIN_H, "cub3D");
 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
@@ -95,6 +93,12 @@ void	get_map_size(t_data *data)
 	data->mapsize[1] = j;
 }
 
+void	init_mlx(t_master *master)
+{
+	master->mlx.mlx_ptr = mlx_init();
+	master->mlx.mlx_win = mlx_new_window(master->mlx.mlx_ptr, WIN_W, WIN_H, "cub3D");
+}
+
 int main(int ac, char **av)
 {
 	t_master	master;
@@ -104,8 +108,8 @@ int main(int ac, char **av)
     map_parser(&master.data);
 	get_map_size(&master.data);
     //map validity check
-	printmap(master.data);
-	printf("max wid: %d, max hei: %d\n", master.data.mapsize[0], master.data.mapsize[1]);
+	//printmap(master.data);
+	init_mlx(&master);
 	run_cub3d(master);
     return (0);
 }
