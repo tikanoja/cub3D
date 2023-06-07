@@ -28,3 +28,12 @@ void free_data(t_data *data, char *msg)
         free_char_arr(data->wall);
     exitmsg(msg);
 }
+
+void free_data_closed_fd(t_data *data, char *msg)
+{
+    if (data && data->map)
+        free_char_arr(data->map);
+    if (data && data->wall)
+        free_char_arr(data->wall);
+    exitmsg(msg);
+}

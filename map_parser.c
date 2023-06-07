@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:26:54 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/06 18:28:23 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:37:22 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 char	*trim_direction(char *direction)
 {
+	int i;
+
+	i = 0;
 	direction = direction + 2;
 	while(is_it_whitespace(*direction) == 1)
 		direction++;
+	while(direction[i] && direction[i] != '\n')
+		i++;;
+	if (direction[i] && direction[i] == '\n')
+		direction [i] = '\0';
 	return (direction);
 }
 
@@ -130,10 +137,8 @@ void	check_for_color_argument(char **temp, t_data *data)
 void	trim_and_split_color(t_data *data, char *color, int flag)
 {
 	char	**temp;
-	int		i;
 	
 	color = color + 1;
-	i = 0;
 	while(is_it_whitespace(*color) == 1)
 		color++;
 	temp = ft_split(color, ',');

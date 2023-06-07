@@ -71,8 +71,21 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 //errors.c
 void free_data(t_data *data, char *msg);
+void free_data_closed_fd(t_data *data, char *msg);
 void free_char_arr(char **arr);
 void exitmsg(char *msg);
+
+//map_validator_utils.c
+int     is_it_a_valid_element(char c);
+int     player_check(char c);
+int     check_first_or_last_row(char *row);
+int     check_valid_surroundings(char **map, int i, int j);
+
+//map_validator.c
+void    texture_rights_checker(t_data *data);
+void    map_element_checker(t_data *data);
+void    check_surrounding_walls(t_data *data);
+void 	map_validator(t_data *data);
 
 //map_parser.c
 void    map_parser(t_data *data);

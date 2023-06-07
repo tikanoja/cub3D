@@ -157,8 +157,8 @@ int main(int ac, char **av)
     master.data.fd = get_fd(av[1]);
     map_parser(&master.data);
 	get_map_size(&master.data);
-    //map validity check
-	printmap(master.data);
+    map_validator(&master.data);
+	//printmap(master.data);
 	init_mlx(&master);
 	run_cub3d(master);
     return (0);
