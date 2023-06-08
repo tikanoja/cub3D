@@ -59,25 +59,53 @@ void    get_player_coords(t_master *master)
 	
 // }
 
-void	draw_direction(t_master *master, t_img *img)
+ void draw_direction(t_master *master, t_img *img)
 {
-	int stick_size = 1;
+	int		fov;
+	float	ray_angle;
+	int		map_x;
+	int		map_y;
+	float	ray_x;
+	float	ray_y;
+	int		stick_size;
+	int		i;
 
-	while ( master->player.x + cos(master->player.angle) * stick_size >= 0 &&  master->player.x + cos(master->player.angle) * stick_size <= WIN_W &&  master->player.x + cos(master->player.angle) * stick_size <= WIN_W && master->player.y + sin(master->player.angle) * stick_size >= 0 && master->player.y + sin(master->player.angle) * stick_size <= WIN_W && master->player.y + sin(master->player.angle) * stick_size <= WIN_H)
-		stick_size++;
-	master->player.endx = master->player.x + cos(master->player.angle) * stick_size;
-	master->player.endy = master->player.y + sin(master->player.angle) * stick_size;
-	// draw_ray(&master);
-	drawl(img, &master->player, 0xFF0000);
-
+	i = 0;
+	fov = 90; //how many rays we want should this be a #define
+	ray_angle = master->player.angle - M_PI / 4;
+	while(i < fov)
+	{
+		stick_size = 1;
+		ray_x = master->player.x;
+		ray_y = master->player.y;
+		while (ray_x >= 0 && ray_x <= WIN_W && ray_y >= 0 && ray_y <= WIN_H)
+		{
+			ray_x = master->player.x + cos(ray_angle) * stick_size;
+			ray_y = master->player.y + sin(ray_angle) * stick_size;
+			map_x = ray_x / master->minimap.block;
+			map_y = ray_y / master->minimap.block;
+			if (map_x >= 0 && map_x < master->data.mapsize[0] && map_y >= 0 && \
+			map_y < master->data.mapsize[1] && \
+			master->data.map[map_y][map_x] == '1')
+				break;
+			stick_size++;
+		}
+		master->player.endx = master->player.x + cos(ray_angle) * stick_size;
+		master->player.endy = master->player.y + sin(ray_angle) * stick_size;
+		drawl(img, &master->player, 0xFF0000);
+		ray_angle += (M_PI / 2) / fov;
+		i++;
+	}
 }
+
+
 
 void    draw_player(t_master *master, t_img *img)
 {  
 	int start_y;
 	int end_y;
-    int start_x;
-    int end_x;
+	int start_x;
+	int end_x;
 	static int flag;
 
 	if (!flag)
@@ -87,8 +115,8 @@ void    draw_player(t_master *master, t_img *img)
 	}
 	start_y = master->player.y - 2;
 	end_y = start_y + 5;
-    start_x = master->player.x - 2;
-    end_x = start_x + 5;
+	start_x = master->player.x - 2;
+	end_x = start_x + 5;
 	while(start_y <= end_y)
 	{
 		while(start_x <= end_x)
