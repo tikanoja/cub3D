@@ -61,19 +61,19 @@ void    get_player_coords(t_master *master)
 
  void draw_direction(t_master *master, t_img *img)
 {
-	int		fov;
+	int		rays;
 	float	ray_angle;
 	int		map_x;
 	int		map_y;
 	float	ray_x;
 	float	ray_y;
-	int		stick_size;
+	int		stick_size; //actually pixel but who cares
 	int		i;
 
 	i = 0;
-	fov = 90; //how many rays we want should this be a #define
+	rays = 360; //how many rays we want should this be a #define
 	ray_angle = master->player.angle - M_PI / 4;
-	while(i < fov)
+	while(i < rays)
 	{
 		stick_size = 1;
 		ray_x = master->player.x;
@@ -93,7 +93,7 @@ void    get_player_coords(t_master *master)
 		master->player.endx = master->player.x + cos(ray_angle) * stick_size;
 		master->player.endy = master->player.y + sin(ray_angle) * stick_size;
 		drawl(img, &master->player, 0xFF0000);
-		ray_angle += (M_PI / 2) / fov;
+		ray_angle += (M_PI / 2) / rays;
 		i++;
 	}
 }
