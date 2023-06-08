@@ -64,7 +64,8 @@ void    check_surrounding_walls(t_data *data)
 	{
 		while(data->map[j][i])
 		{
-            if (data->map[j][i] == '0' && check_valid_surroundings(data->map, i, j) == 1)
+            if ((data->map[j][i] == '0' || !player_check(data->map[j][i])) \
+            && check_valid_surroundings(data->map, i, j) == 1)
                 free_data_closed_fd(data, "Unclosed map!\n");
             i++;
 		}

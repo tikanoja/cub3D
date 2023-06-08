@@ -8,8 +8,8 @@
 # include <mlx.h> //unfortunately you already know
 # include <fcntl.h> //open
 # include "./libft/libft.h"
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 1280
+# define WIN_H 960
 
 typedef struct s_data
 {
@@ -23,12 +23,14 @@ typedef struct s_data
 	int mapsize[2]; //wid, hei
 }               t_data;
 
-typedef struct s_coords
+typedef struct s_player
 {
 	int x;
 	int y;
-	int angle;
-}				t_coords;
+	int endx;
+	int endy;
+	double angle;
+}				t_player;
 
 typedef struct s_bres
 {
@@ -58,16 +60,33 @@ typedef struct s_img
 	int				en;
 }				t_img;
 
+typedef struct s_minimap_coords
+{
+	int x;
+	int y;
+	int j;
+	int i;
+	int block;
+}				t_minimap_coords;
 typedef struct t_master
 {
 	t_data			data;
 	t_mlxinfo		mlx;
 	t_img			img;
-	t_coords		coords;
+	t_player		player;
+	t_minimap_coords minimap;
 }				t_master;
 
+
 //draw.c
+void	drawl(t_img *img, t_player *coords, int color);
+void	draw_background(t_master *master, t_img *img);
+void	draw_block(t_master *master, t_img *img, t_minimap_coords coords);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//minimap.c
+void	init_minimap_coords(t_minimap_coords *coords, t_master *master);
+void	draw_minimap(t_master *master, t_img *img);
 
 //errors.c
 void free_data(t_data *data, char *msg);
@@ -99,6 +118,7 @@ void    arg_checker(int ac, char **av);
 void    validity_checker(int ac, char **av);
 
 //main.c
+void	run_cub3d(t_master master);
 int	main(int ac, char **av);
 
 #endif

@@ -1,10 +1,10 @@
 NAME = cub3D
 
 SRC = ./main.c arg_checker.c map_parser.c errors.c draw.c map_validator.c\
-	map_validator_utils.c
+	map_validator_utils.c minimap.c
 
 OBJ = ./main.o arg_checker.o map_parser.o errors.o draw.o map_validator.o\
-	map_validator_utils.o
+	map_validator_utils.o minimap.o
 
 HEADERS = -I ./mlx
 

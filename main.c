@@ -1,30 +1,52 @@
 #include "cub3D.h"
 
-int	freeandexit(t_mlxinfo *mlx)
+int	freeandexit(t_master *master)
 {
-	mlx_destroy_window(mlx->mlx_ptr, mlx->mlx_win);
-	free(mlx->mlx_ptr);
+	mlx_destroy_window(master->mlx.mlx_ptr, master->mlx.mlx_win);
+	free(master->mlx.mlx_ptr);
 	exit(0);
 	return (0);
 }
 
-int	key_hook(int keycode, t_mlxinfo *mlx)
+int	key_hook(int keycode, t_master *master)
 {
-	// t_img	img;
 
 	printf("keycode: %d\n", keycode);
 	if (keycode == 53 || keycode == 6)
 	{
-		freeandexit(mlx);
+		freeandexit(master);
 	}
 	else if (keycode == 13 || keycode == 126)
+	{
+		master->player.y -= 2;
 		printf("W / Arrow Up\n");
+	}
 	else if (keycode == 1 || keycode == 125)
+	{
+		master->player.y += 2;
 		printf("S / Arrow Down\n");
-	else if (keycode == 0 || keycode == 123)
+	}
+	else if (keycode == 0)
+	{
+		master->player.x -= 2;
 		printf("A / Arrow Left\n");
-	else if (keycode == 2 || keycode == 124)
+	}
+	else if (keycode == 2)
+	{
+		master->player.x += 2;
 		printf("D / Arrow Right\n");
+	}
+	else if (keycode == 123)
+	{
+		master->player.angle -= 0.05;
+		printf("A / Arrow Left\n");
+	}
+	else if (keycode == 124)
+	{
+		master->player.angle += 0.05;
+		printf("D / Arrow Right\n");
+	}
+	run_cub3d(*master);
 	// if ((keycode >= 123 && keycode <= 126) || keycode == 69 || keycode == 78)
 	// {
 	// 	img.img = mlx_new_image(mlx->mlx_ptr, WIN_W, WIN_H);
@@ -61,62 +83,31 @@ void printmap(t_data data)
 	}
 }
 
-// void	draw_minimap(t_master *master, t_img *img)
+
+// void	run_cub3d(t_master master)
 // {
-// 	int x;
-// 	int y;
-// 	int block;
+// 	t_img img;
 
-// 	x = WIN_W / master->data.mapsize[0] / 2;
-// 	y = WIN_H / master->data.mapsize[1] / 2;
-// 	if (x <= y)
-// 		block = x;
-// 	else
-// 		block = y;
-// 	x = 0;
-// 	y = 0;
-// 	while(y < block * master->data.mapsize[1])
-// 	{
-// 		while (x < block * master->data.mapsize[0])
-// 		{
-// 			my_mlx_pixel_put(img, x, y, 0x808080);
-// 			x++;
-// 		}
-// 		x = 0;
-// 		y++;
-// 	}
+// 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
+// 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
+// 	draw_background(&master, &master.img);
+// 	draw_minimap(&master, &master.img);
+// 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
+// 	//mlx_key_hook(master.mlx.mlx_win, key_hook, &master); //registers key release
+// 	mlx_hook(master.mlx.mlx_win, 2, 0, key_hook, &master);
+// 	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
+// 	mlx_loop(master.mlx.mlx_ptr);
 // }
-
-void	draw_background(t_master *master, t_img *img)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while(y < WIN_H)
-	{
-		while (x < WIN_W)
-		{
-			if (y < WIN_H / 2)
-				my_mlx_pixel_put(img, x, y, master->data.s_int);
-			else
-				my_mlx_pixel_put(img, x, y, master->data.f_int);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-}
 
 void	run_cub3d(t_master master)
 {
 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
 	draw_background(&master, &master.img);
-	// draw_minimap(&master, &master.img);
+	draw_minimap(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
-	mlx_key_hook(master.mlx.mlx_win, key_hook, &master.mlx);
+	//mlx_key_hook(master.mlx.mlx_win, key_hook, &master); //registers key release
+	mlx_hook(master.mlx.mlx_win, 2, 0, key_hook, &master);
 	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
 	mlx_loop(master.mlx.mlx_ptr);
 }
