@@ -8,55 +8,125 @@ int	freeandexit(t_master *master)
 	return (0);
 }
 
-int	key_hook(int keycode, t_master *master)
+int	key_press(int keycode, t_master *master)
 {
-
-	printf("keycode: %d\n", keycode);
 	if (keycode == 53 || keycode == 6)
 	{
 		freeandexit(master);
 	}
-	else if (keycode == 13 || keycode == 126)
+	else if (keycode == 13 || keycode == 126) //anglen suuntaan
 	{
-		master->player.y -= 2;
-		printf("W / Arrow Up\n");
+		master->keylog.W = 1;
+		master->keylog.UP = 1;
 	}
-	else if (keycode == 1 || keycode == 125)
+	else if (keycode == 1 || keycode == 125) //anglen suuntaan
 	{
-		master->player.y += 2;
-		printf("S / Arrow Down\n");
+		master->keylog.S = 1;
+		master->keylog.DOWN = 1;
 	}
 	else if (keycode == 0)
+		master->keylog.A = 1;
+	else if (keycode == 2)
+		master->keylog.D = 1;
+	else if (keycode == 123)
+		master->keylog.LEFT = 1;
+	else if (keycode == 124)
+		master->keylog.RIGHT = 1;
+	return (0);
+}
+int	key_release(int keycode, t_master *master)
+{
+	if (keycode == 13 || keycode == 126) //anglen suuntaan
+	{
+		master->keylog.W = 0;
+		master->keylog.UP = 0;
+	}
+	else if (keycode == 1 || keycode == 125) //anglen suuntaan
+	{
+		master->keylog.S = 0;
+		master->keylog.DOWN = 0;
+	}
+	else if (keycode == 0)
+		master->keylog.A = 0;
+	else if (keycode == 2)
+		master->keylog.D = 0;
+	else if (keycode == 123)
+		master->keylog.LEFT = 0;
+	else if (keycode == 124)
+		master->keylog.RIGHT = 0;
+	return (0);
+}
+
+void	run_cub3d(t_master *master)
+{
+	static int flag;
+
+	if (flag != 0)
+		mlx_destroy_image(master->mlx.mlx_ptr, master->img.img);
+	flag = 1;
+	master->img.img = mlx_new_image(master->mlx.mlx_ptr, WIN_W, WIN_H);
+	master->img.addr = mlx_get_data_addr(master->img.img, &master->img.bpp, &master->img.llen, &master->img.en);
+	draw_background(master, &master->img);
+	draw_minimap(master, &master->img);
+	mlx_put_image_to_window(master->mlx.mlx_ptr, master->mlx.mlx_win, master->img.img, 0, 0);
+}
+
+int	update_game(t_master *master)
+{
+	int movement_speed;
+	int updateflag;
+
+	updateflag = 0;
+	movement_speed = 4;
+	if (master->keylog.W == 1 || master->keylog.UP == 1) //anglen suuntaan
+	{
+		master->player.y += movement_speed * sin(master->player.angle);
+		master->player.x += movement_speed * cos(master->player.angle);
+		updateflag = 1;
+		printf("W / Arrow Up\n");
+
+	}
+	if (master->keylog.S == 1 || master->keylog.DOWN == 1) //anglen suuntaan
+	{
+		master->player.y += -movement_speed * sin(master->player.angle);
+		master->player.x += -movement_speed * cos(master->player.angle);
+		printf("S / Arrow Down\n");
+		updateflag = 1;
+
+	}
+	if (master->keylog.A == 1)
 	{
 		master->player.x -= 2;
-		printf("A / Arrow Left\n");
+		updateflag = 1;
+		printf("A\n");
+
 	}
-	else if (keycode == 2)
+	if (master->keylog.D == 1)
 	{
 		master->player.x += 2;
-		printf("D / Arrow Right\n");
+		updateflag = 1;
+		printf("D\n");
+
 	}
-	else if (keycode == 123)
+	if (master->keylog.LEFT == 1)
 	{
 		master->player.angle -= 0.05;
-		printf("A / Arrow Left\n");
+		if (master->player.angle <= 0)
+			master->player.angle = 2 * M_PI;
+		updateflag = 1;
+		printf("Arrow Left\n");
+
 	}
-	else if (keycode == 124)
+	if (master->keylog.RIGHT == 1)
 	{
 		master->player.angle += 0.05;
-		printf("D / Arrow Right\n");
+		if (master->player.angle >= 2 * M_PI)
+			master->player.angle = 0;
+		updateflag = 1;
+		printf("Arrow Right\n");
 	}
-	run_cub3d(*master);
-	// if ((keycode >= 123 && keycode <= 126) || keycode == 69 || keycode == 78)
-	// {
-	// 	img.img = mlx_new_image(mlx->mlx_ptr, WIN_W, WIN_H);
-	// 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.llen, &img.en);
-	// 	modhandler(keycode, mlx);
-	// 	drawgrid(*mlx->map, &img, mlx->coords, mlx);
-	// 	mlx_destroy_image(mlx->mlx_ptr, mlx->currentimg);
-	// 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, img.img, 0, 0);
-	// 	mlx->currentimg = img.img;
-	// }
+	if(updateflag == 1)
+		run_cub3d(master);
 	return (0);
 }
 
@@ -84,33 +154,22 @@ void printmap(t_data data)
 }
 
 
-// void	run_cub3d(t_master master)
-// {
-// 	t_img img;
 
-// 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
-// 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
-// 	draw_background(&master, &master.img);
-// 	draw_minimap(&master, &master.img);
-// 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
-// 	//mlx_key_hook(master.mlx.mlx_win, key_hook, &master); //registers key release
-// 	mlx_hook(master.mlx.mlx_win, 2, 0, key_hook, &master);
-// 	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
-// 	mlx_loop(master.mlx.mlx_ptr);
-// }
-
-void	run_cub3d(t_master master)
+void	init_cub3d(t_master master)
 {
 	master.img.img = mlx_new_image(master.mlx.mlx_ptr, WIN_W, WIN_H);
 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
 	draw_background(&master, &master.img);
 	draw_minimap(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
-	//mlx_key_hook(master.mlx.mlx_win, key_hook, &master); //registers key release
-	mlx_hook(master.mlx.mlx_win, 2, 0, key_hook, &master);
+
+	mlx_hook(master.mlx.mlx_win, 2, 0, key_press, &master);
+	mlx_hook(master.mlx.mlx_win, 3, 0, key_release, &master);
+	mlx_loop_hook(master.mlx.mlx_ptr, update_game, &master); //taa ois mlx loop hook
 	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
 	mlx_loop(master.mlx.mlx_ptr);
 }
+
 
 void	get_map_size(t_data *data)
 {
@@ -138,8 +197,15 @@ void	init_mlx(t_master *master)
 {
 	master->mlx.mlx_ptr = mlx_init();
 	master->mlx.mlx_win = mlx_new_window(master->mlx.mlx_ptr, WIN_W, WIN_H, "cub3D");
+	master->keylog.W = 0;
+	master->keylog.A = 0;
+	master->keylog.S = 0;
+	master->keylog.D = 0;
+	master->keylog.UP = 0;
+	master->keylog.LEFT = 0;
+	master->keylog.DOWN = 0;
+	master->keylog.RIGHT = 0;
 }
-
 int main(int ac, char **av)
 {
 	t_master	master;
@@ -151,6 +217,6 @@ int main(int ac, char **av)
     map_validator(&master.data);
 	//printmap(master.data);
 	init_mlx(&master);
-	run_cub3d(master);
+	init_cub3d(master);
     return (0);
 }

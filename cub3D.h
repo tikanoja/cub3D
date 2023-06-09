@@ -68,6 +68,19 @@ typedef struct s_minimap_coords
 	int i;
 	int block;
 }				t_minimap_coords;
+
+typedef struct s_keylog
+{
+	int W;
+	int A;
+	int S;
+	int D;
+	int UP;
+	int LEFT;
+	int DOWN;
+	int RIGHT;
+}				t_keylog;
+
 typedef struct t_master
 {
 	t_data			data;
@@ -75,6 +88,7 @@ typedef struct t_master
 	t_img			img;
 	t_player		player;
 	t_minimap_coords minimap;
+	t_keylog		keylog;
 }				t_master;
 
 
@@ -118,7 +132,7 @@ void    arg_checker(int ac, char **av);
 void    validity_checker(int ac, char **av);
 
 //main.c
-void	run_cub3d(t_master master);
+void	init_cub3d(t_master master);
 int	main(int ac, char **av);
 
 #endif
