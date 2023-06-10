@@ -129,7 +129,7 @@ void    draw_player(t_master *master, t_img *img)
 		start_y++;
 	}
 	draw_direction(master, img);
-	raycaster(master, img);
+	// raycaster(master, img);
 }
 
 void	draw_minimap(t_master *master, t_img *img)

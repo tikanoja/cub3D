@@ -94,6 +94,14 @@ typedef struct t_master
 	t_keylog		keylog;
 }				t_master;
 
+//run_cub3d.c
+int		update_game(t_master *master);
+void	run_cub3d(t_master *master);
+void	init_cub3d(t_master master);
+
+//keys.c
+int		key_press(int keycode, t_master *master);
+int		key_release(int keycode, t_master *master);
 
 //draw.c
 void	drawl(t_img *img, t_player *coords, int color);
@@ -139,6 +147,7 @@ void    arg_checker(int ac, char **av);
 void    validity_checker(int ac, char **av);
 
 //main.c
+int	freeandexit(t_master *master);
 void	init_cub3d(t_master master);
 int	main(int ac, char **av);
 
