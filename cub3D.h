@@ -10,7 +10,7 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
-# define RAYS 320
+# define RAYS 90
 # define BLOCKSIZE 320
 # define FOV 90
 

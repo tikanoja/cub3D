@@ -15,17 +15,15 @@ void	init_minimap_coords(t_minimap_coords *coords, t_master *master)
 }
 void	get_angle(t_master *master, char c)
 {
-	if (c == 'N')
-		master->player.angle = 0.0;
-	else if (c == 'E')
-		master->player.angle = 3 * M_PI / 2;
-	else if (c == 'S')
-		master->player.angle = M_PI;
-	else if (c == 'W')
+	if (c == 'S')
 		master->player.angle = M_PI / 2;
+	else if (c == 'E')
+		master->player.angle = 0.0;
+	else if (c == 'N')
+		master->player.angle = 3 * M_PI / 2;
+	else if (c == 'W')
+		master->player.angle = M_PI;
 	printf("player angle %f and char is %c\n", master->player.angle, c);
-
-
 }
 void    get_player_coords(t_master *master)
 {
@@ -52,7 +50,6 @@ void    get_player_coords(t_master *master)
 		}
 		master->player.y++;
 	}
-	printf("y is %d and x is %d\n", master->player.y , master->player.x);
 	get_angle(master, master->data.map[master->player.y - 1][master->player.x - 1]);
 	master->player.y = ((master->player.y - 1) * master->minimap.block) + master->minimap.block / 2;
 	master->player.x = ((master->player.x - 1) * master->minimap.block) + master->minimap.block / 2;
@@ -61,8 +58,9 @@ void    get_player_coords(t_master *master)
 
  void draw_direction(t_master *master, t_img *img)
 {
-	int		rays;
 	float	ray_angle;
+	float	angle_between_rays;
+	float 	fov_rad;
 	int		map_x;
 	int		map_y;
 	float	ray_x;
@@ -71,10 +69,10 @@ void    get_player_coords(t_master *master)
 	int		i;
 
 	i = 0;
-	rays = 365; //how many rays we want should this be a #define
-	printf("player angle %f\n", master->player.angle);
-	ray_angle = master->player.angle - M_PI / 4;
-	while(i < rays)
+	fov_rad = FOV * (M_PI / 180);
+	ray_angle = master->player.angle - (fov_rad / 2);
+	angle_between_rays = fov_rad / RAYS;
+	while(i < RAYS)
 	{
 		ray_len = 1;
 		ray_x = master->player.x;
@@ -94,7 +92,7 @@ void    get_player_coords(t_master *master)
 		master->player.endx = master->player.x + cos(ray_angle) * ray_len;
 		master->player.endy = master->player.y + sin(ray_angle) * ray_len;
 		drawl(img, &master->player, 0xFF0000);
-		ray_angle += (M_PI / 2) / rays;
+		ray_angle += angle_between_rays;
 		i++;
 	}
 }
@@ -129,7 +127,7 @@ void    draw_player(t_master *master, t_img *img)
 		start_y++;
 	}
 	draw_direction(master, img);
-	// raycaster(master, img);
+	raycaster(master, img);
 }
 
 void	draw_minimap(t_master *master, t_img *img)
