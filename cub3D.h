@@ -10,6 +10,9 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
+# define RAYS 320
+# define BLOCKSIZE 320
+# define FOV 90
 
 typedef struct s_data
 {
@@ -97,6 +100,10 @@ void	drawl(t_img *img, t_player *coords, int color);
 void	draw_background(t_master *master, t_img *img);
 void	draw_block(t_master *master, t_img *img, t_minimap_coords coords);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+//raycast.c
+int 	count_max_ray(t_master *master);
+void 	raycaster(t_master *master, t_img *img);
 
 //minimap.c
 void	init_minimap_coords(t_minimap_coords *coords, t_master *master);
