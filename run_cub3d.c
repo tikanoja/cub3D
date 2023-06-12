@@ -25,14 +25,16 @@ int	update_game(t_master *master)
 	}
 	if (master->keylog.A == 1)
 	{
-		master->player.x -= 2;
+		master->player.y -= movement_speed * cos(master->player.angle);
+        master->player.x += movement_speed * sin(master->player.angle);
 		updateflag = 1;
 		printf("A\n");
 
 	}
 	if (master->keylog.D == 1)
 	{
-		master->player.x += 2;
+    	master->player.y += movement_speed * cos(master->player.angle);
+        master->player.x -= movement_speed * sin(master->player.angle);
 		updateflag = 1;
 		printf("D\n");
 
