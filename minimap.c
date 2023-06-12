@@ -75,8 +75,8 @@ void    get_player_coords(t_master *master)
 	while(i < RAYS)
 	{
 		ray_len = 1;
-		ray_x = master->player.x;
-		ray_y = master->player.y;
+		ray_x = (int)master->player.x;
+		ray_y = (int)master->player.y;
 		while (ray_x >= 0 && ray_x <= WIN_W && ray_y >= 0 && ray_y <= WIN_H)
 		{
 			ray_x = master->player.x + cos(ray_angle) * ray_len;

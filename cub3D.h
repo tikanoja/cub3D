@@ -28,8 +28,8 @@ typedef struct s_data
 
 typedef struct s_player
 {
-	int x;
-	int y;
+	int x; //float??
+	int y; //float??
 	int endx;
 	int endy;
 	double angle;

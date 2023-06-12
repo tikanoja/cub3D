@@ -6,7 +6,7 @@ int	update_game(t_master *master)
 	int updateflag;
 
 	updateflag = 0;
-	movement_speed = 4;
+	movement_speed = 2;
 	if (master->keylog.W == 1 || master->keylog.UP == 1) //anglen suuntaan
 	{
 		master->player.y += movement_speed * sin(master->player.angle);
@@ -39,7 +39,7 @@ int	update_game(t_master *master)
 	}
 	if (master->keylog.LEFT == 1)
 	{
-		master->player.angle -= 0.05;
+		master->player.angle -= 0.03;
 		if (master->player.angle <= 0)
 			master->player.angle = 2 * M_PI;
 		updateflag = 1;
@@ -48,7 +48,7 @@ int	update_game(t_master *master)
 	}
 	if (master->keylog.RIGHT == 1)
 	{
-		master->player.angle += 0.05;
+		master->player.angle += 0.03;
 		if (master->player.angle >= 2 * M_PI)
 			master->player.angle = 0;
 		updateflag = 1;
