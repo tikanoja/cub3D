@@ -1,5 +1,26 @@
 #include "cub3D.h"
 
+int is_wall(float x, float y, t_master *master, float buffer_distance)
+{
+	int map_x = x / master->minimap.block;
+	int map_y = y / master->minimap.block;
+
+	if (map_x >= 0 && map_x < master->data.mapsize[0] && map_y >= 0 && map_y < master->data.mapsize[1] && master->data.map[map_y][map_x] == '1')
+	{
+		float dist_x = fmod(x, master->minimap.block);
+		float dist_y = fmod(y, master->minimap.block);
+
+		if (dist_x <= buffer_distance || dist_x >= master->minimap.block - buffer_distance || dist_y <= buffer_distance || dist_y >= master->minimap.block - buffer_distance)
+		{
+			return 1; // Collision with wall considering the buffer distance
+		}
+	}
+
+	return 0;
+}
+
+
+
 int	update_game(t_master *master)
 {
 	int movement_speed;
@@ -7,12 +28,19 @@ int	update_game(t_master *master)
 
 	updateflag = 0;
 	movement_speed = 2;
+	int new_x;
+	int new_y;
 	if (master->keylog.W == 1 || master->keylog.UP == 1) //anglen suuntaan
 	{
-		master->player.y += movement_speed * sin(master->player.angle);
-		master->player.x += movement_speed * cos(master->player.angle);
-		updateflag = 1;
-		printf("W / Arrow Up\n");
+		new_x = master->player.x + movement_speed * cos(master->player.angle);
+		new_y = master->player.y + movement_speed * sin(master->player.angle);
+
+		// if (!is_wall(new_x, new_y, master, 100))
+		// {
+			master->player.x = new_x;
+			master->player.y = new_y;
+			updateflag = 1;
+		// }
 
 	}
 	if (master->keylog.S == 1 || master->keylog.DOWN == 1) //anglen suuntaan
@@ -26,15 +54,15 @@ int	update_game(t_master *master)
 	if (master->keylog.A == 1)
 	{
 		master->player.y -= movement_speed * cos(master->player.angle);
-        master->player.x += movement_speed * sin(master->player.angle);
+		master->player.x += movement_speed * sin(master->player.angle);
 		updateflag = 1;
 		printf("A\n");
 
 	}
 	if (master->keylog.D == 1)
 	{
-    	master->player.y += movement_speed * cos(master->player.angle);
-        master->player.x -= movement_speed * sin(master->player.angle);
+		master->player.y += movement_speed * cos(master->player.angle);
+		master->player.x -= movement_speed * sin(master->player.angle);
 		updateflag = 1;
 		printf("D\n");
 
