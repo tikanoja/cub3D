@@ -96,6 +96,8 @@ void raycaster(t_master *master, t_img *img)
 	float ray_angle = master->player.angle - (fov_rad / 2);
 	float angle_between_rays = fov_rad / RAYS;
 	int color;
+	if (ray_angle < 0)
+		ray_angle = 2 * M_PI - fabsf(ray_angle);
 	// float max_wall_distance = count_max_ray(master);/* Calculate the maximum distance from the player to the farthest wall */;
 	while (i < RAYS)
 	{
@@ -147,6 +149,8 @@ void raycaster(t_master *master, t_img *img)
 		// x = x + stripe_width;
 
 		ray_angle += angle_between_rays;
+		if (ray_angle > 2 * M_PI)
+			ray_angle = 2 * M_PI - ray_angle;
 		i++;
 	}
 }
