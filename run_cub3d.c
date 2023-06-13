@@ -2,92 +2,100 @@
 
 int is_wall(float x, float y, t_master *master, float buffer_distance)
 {
-	int map_x = x / master->minimap.block;
-	int map_y = y / master->minimap.block;
+    int map_x = x / master->minimap.block;
+    int map_y = y / master->minimap.block;
 
-	if (map_x >= 0 && map_x < master->data.mapsize[0] && map_y >= 0 && map_y < master->data.mapsize[1] && master->data.map[map_y][map_x] == '1')
-	{
-		float dist_x = fmod(x, master->minimap.block);
-		float dist_y = fmod(y, master->minimap.block);
+    if (map_x >= 0 && map_x < master->data.mapsize[0] && map_y >= 0 && map_y < master->data.mapsize[1] && master->data.map[map_y][map_x] == '1')
+    {
+        float dist_x = fmod(x, master->minimap.block);
+        float dist_y = fmod(y, master->minimap.block);
 
-		if (dist_x <= buffer_distance || dist_x >= master->minimap.block - buffer_distance || dist_y <= buffer_distance || dist_y >= master->minimap.block - buffer_distance)
-		{
-			return 1; // Collision with wall considering the buffer distance
-		}
-	}
+        if (dist_x <= buffer_distance || dist_x >= master->minimap.block - buffer_distance || dist_y <= buffer_distance || dist_y >= master->minimap.block - buffer_distance)
+        {
+            return 1; // Collision with wall considering the buffer distance
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 
-
-int	update_game(t_master *master)
+int update_game(t_master *master)
 {
-	int movement_speed;
-	int updateflag;
+	float movement_speed = 2;
+	int updateflag = 0;
+	int new_x, new_y;
 
-	updateflag = 0;
-	movement_speed = 2;
-	int new_x;
-	int new_y;
-	if (master->keylog.W == 1 || master->keylog.UP == 1) //anglen suuntaan
+	if (master->keylog.W == 1 || master->keylog.UP == 1) // Move forward
 	{
-		new_x = master->player.x + movement_speed * cos(master->player.angle);
-		new_y = master->player.y + movement_speed * sin(master->player.angle);
-
-		// if (!is_wall(new_x, new_y, master, 100))
-		// {
+		new_x = round(master->player.x + movement_speed * cos(master->player.angle));
+		new_y = round(master->player.y + movement_speed * sin(master->player.angle));
+		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
+		{
 			master->player.x = new_x;
 			master->player.y = new_y;
 			updateflag = 1;
-		// }
-
+		}
 	}
-	if (master->keylog.S == 1 || master->keylog.DOWN == 1) //anglen suuntaan
+
+	if (master->keylog.S == 1 || master->keylog.DOWN == 1) // Move backward
 	{
-		master->player.y += -movement_speed * sin(master->player.angle);
-		master->player.x += -movement_speed * cos(master->player.angle);
-		printf("S / Arrow Down\n");
-		updateflag = 1;
-
+		new_x = round(master->player.x - movement_speed * cos(master->player.angle));
+		new_y = round(master->player.y - movement_speed * sin(master->player.angle));
+		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
+		{
+			master->player.x = new_x;
+			master->player.y = new_y;
+			updateflag = 1;
+		}
 	}
-	if (master->keylog.A == 1)
+
+	if (master->keylog.A == 1) // Move left
 	{
-		master->player.y -= movement_speed * cos(master->player.angle);
-		master->player.x += movement_speed * sin(master->player.angle);
-		updateflag = 1;
-		printf("A\n");
-
+		new_x = round(master->player.x + movement_speed * sin(master->player.angle));
+		new_y = round(master->player.y - movement_speed * cos(master->player.angle));
+		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
+		{
+			master->player.x = new_x;
+			master->player.y = new_y;
+			updateflag = 1;
+		}
 	}
-	if (master->keylog.D == 1)
+
+	if (master->keylog.D == 1) // Move right
 	{
-		master->player.y += movement_speed * cos(master->player.angle);
-		master->player.x -= movement_speed * sin(master->player.angle);
-		updateflag = 1;
-		printf("D\n");
-
+		new_x = round(master->player.x - movement_speed * sin(master->player.angle));
+		new_y = round(master->player.y + movement_speed * cos(master->player.angle));
+		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
+		{
+			master->player.x = new_x;
+			master->player.y = new_y;
+			updateflag = 1;
+		}
 	}
-	if (master->keylog.LEFT == 1)
+
+	if (master->keylog.LEFT == 1) // Rotate left
 	{
 		master->player.angle -= 0.03;
 		if (master->player.angle <= 0)
 			master->player.angle = 2 * M_PI;
 		updateflag = 1;
-		printf("Arrow Left\n");
-
 	}
-	if (master->keylog.RIGHT == 1)
+
+	if (master->keylog.RIGHT == 1) // Rotate right
 	{
 		master->player.angle += 0.03;
 		if (master->player.angle >= 2 * M_PI)
 			master->player.angle = 0;
 		updateflag = 1;
-		printf("Arrow Right\n");
 	}
-	if(updateflag == 1)
+
+	if (updateflag == 1)
 		run_cub3d(master);
-	return (0);
-}
+
+	return 0;
+	}
+
 
 void	run_cub3d(t_master *master)
 {

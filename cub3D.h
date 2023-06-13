@@ -10,9 +10,10 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
-# define RAYS 90
+# define RAYS 320
 # define BLOCKSIZE 320
 # define FOV 90
+# define GOD_MODE 1 //0 enables walking trough walls
 
 typedef struct s_data
 {
