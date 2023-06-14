@@ -78,105 +78,103 @@ void    check_surrounding_walls(t_data *data)
 }
 void flood_fill(char **map, int row, int col, int **visited, int numRows, int numCols)
 {
-    if (row < 0 || row >= numRows || col < 0 || col >= numCols)
-        return ;
-    if (map[row][col] != '0' && map[row][col] != '1' && map[row][col] != 'E' && map[row][col] != 'W' && map[row][col] != 'S' && map[row][col] != 'N')
-        return ;
-    if (visited[row][col] != 0)
-        return ;
-    visited[row][col] = 1;
-    flood_fill(map, row - 1, col, visited, numRows, numCols); // Up
-    flood_fill(map, row + 1, col, visited, numRows, numCols); // Down
-    flood_fill(map, row, col - 1, visited, numRows, numCols); // Left
-    flood_fill(map, row, col + 1, visited, numRows, numCols); // Right
+	if (row < 0 || row >= numRows || col < 0 || col >= numCols)
+		return ;
+	if (map[row][col] != '0' && map[row][col] != '1' && map[row][col] != 'E' && map[row][col] != 'W' && map[row][col] != 'S' && map[row][col] != 'N')
+		return ;
+	if (visited[row][col] != 0)
+		return ;
+	visited[row][col] = 1;
+	flood_fill(map, row - 1, col, visited, numRows, numCols); // Up
+	flood_fill(map, row + 1, col, visited, numRows, numCols); // Down
+	flood_fill(map, row, col - 1, visited, numRows, numCols); // Left
+	flood_fill(map, row, col + 1, visited, numRows, numCols); // Right
 }
 
 
 int is_map_connected(t_data *data)
 {
-    // Create a visited matrix to track visited cells
-    int start_row = -1;
-    int start_col = -1;
+	// Create a visited matrix to track visited cells
+	int start_row = -1;
+	int start_col = -1;
 	int i;
 	int j;
-    int **visited;
+	int **visited;
 
 	start_row = -1;
 	start_col = -1;
 	i = 0;
 	j = 0;
 	visited = ft_calloc(data->mapsize[1], sizeof(int *));
-    while(i < data->mapsize[1])
-    {
-        visited[i] = ft_calloc(data->mapsize[0], sizeof(int)); // number of columns
+	while(i < data->mapsize[1])
+	{
+		visited[i] = ft_calloc(data->mapsize[0], sizeof(int)); // number of columns
 		i++;
-    }
+	}
 	i = 0;
-    while (i < data->mapsize[1])
+	while (i < data->mapsize[1])
 	{
 		j = 0;
-        while (j < data->mapsize[0])
-        {
-            if (data->map[i][j] == '1' || data->map[i][j] == '0' ||
-                data->map[i][j] == 'E' || data->map[i][j] == 'W' ||
-                data->map[i][j] == 'S' || data->map[i][j] == 'N')
-            {
-                start_row = i;
-                start_col = j;
-                break ;
-            }
-        }
-        if (start_row != -1 && start_col != -1)
-            break ;
-		i++;
-    }
-	i = 0;
-    if (start_row == -1 || start_col == -1)
-    {
-        while(i < data->mapsize[1])
+		while (j < data->mapsize[0])
 		{
-            free(visited[i]);
+			if (data->map[i][j] == '1' || data->map[i][j] == '0' ||
+				data->map[i][j] == 'E' || data->map[i][j] == 'W' ||
+				data->map[i][j] == 'S' || data->map[i][j] == 'N')
+			{
+				start_row = i;
+				start_col = j;
+				break ;
+			}
+		}
+		if (start_row != -1 && start_col != -1)
+			break ;
+		i++;
+	}
+	i = 0;
+	if (start_row == -1 || start_col == -1)
+	{
+		while(i < data->mapsize[1])
+		{
+			free(visited[i]);
 			i++;
 		}
 		free(visited);
-        return (0);
-    }
-    flood_fill(data->map, start_row, start_col, visited, data->mapsize[1], data->mapsize[0]);
+		return (0);
+	}
+	flood_fill(data->map, start_row, start_col, visited, data->mapsize[1], data->mapsize[0]);
 	i = 0;
-    while (i < data->mapsize[1])
-    {
+	while (i < data->mapsize[1])
+	{
 		j = 0;
-        while ((size_t)j < ft_strlen(data->map[i]))
-        {
-			printf("visited is %c and status is %d\n", data->map[i][j] ,visited[i][j]);
-            if ((data->map[i][j] == '1' || data->map[i][j] == '0' || \
-                 data->map[i][j] == 'E' || data->map[i][j] == 'W' || \
-                 data->map[i][j] == 'S' || data->map[i][j] == 'N') && \
-                !visited[i][j])
-            {
-				printf("yellow!\n");
+		while ((size_t)j < ft_strlen(data->map[i]))
+		{
+			if ((data->map[i][j] == '1' || data->map[i][j] == '0' || \
+				 data->map[i][j] == 'E' || data->map[i][j] == 'W' || \
+				 data->map[i][j] == 'S' || data->map[i][j] == 'N') && \
+				!visited[i][j])
+			{
 				j = 0;
-               while (j < data->mapsize[1])
+			   while (j < data->mapsize[1])
 			   {
-                    free(visited[j]);
+					free(visited[j]);
 					j++;
 			   }
-                free(visited);
-                return (0);
-            }
+				free(visited);
+				return (0);
+			}
 			j++;
-        }
-		i++;
-    }
-
-    i = 0;
-    while(i < data->mapsize[1])
-	{
-        free(visited[i]);
+		}
 		i++;
 	}
-    free(visited);
-    return (1);
+
+	i = 0;
+	while(i < data->mapsize[1])
+	{
+		free(visited[i]);
+		i++;
+	}
+	free(visited);
+	return (1);
 }
 
 
