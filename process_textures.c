@@ -25,11 +25,27 @@ int    *load_image(t_master *master, char *path, t_img *img)
     return (texture);
 }
 
+void    texture_extension_check(t_master *master)
+{
+    int str_end;
+    int i;
+
+    i = 0;
+    while (i < 4)
+    {
+        str_end = ft_strlen(master->data.wall[i]);
+        str_end = str_end - 4;
+        if (ft_strncmp(&master->data.wall[i][str_end], ".xpm", 4))
+            free_data_closed_fd(&master->data, "Please provide textures in .xpm\n");
+        i++;
+    }
+}
+
 void    process_textures(t_master *master)
 {
     t_img   img;
-
-  
+    
+    texture_extension_check(master);
     master->data.north = load_image(master, master->data.wall[0], &img);
     master->data.east = load_image(master, master->data.wall[1], &img);
     master->data.south = load_image(master, master->data.wall[2], &img);
