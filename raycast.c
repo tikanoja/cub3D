@@ -85,91 +85,79 @@ void		wall_analyzerv2(float ray_y, float ray_x, float ray_angle, t_master *maste
 	}
 }
 
+void	init_raycast(t_raycast *raycast, t_master *master)
+{
+	raycast->stripe_width = WIN_W / RAYS;
+	raycast->fov_rad = FOV * (M_PI / 180);
+	raycast->ray_angle = master->player.angle - (raycast->fov_rad / 2);
+	raycast->angle_between_rays = raycast->fov_rad / RAYS;
+	raycast->ray_x = master->player.x;
+	raycast->ray_y = master->player.y;
+	raycast->twopi = 2 * M_PI;
+	raycast->halfwin = WIN_H / 2;
+}
+
+
 void raycaster(t_master *master, t_img *img)
 {
 	int x = 0;
 	int i = 0;
 	int y;
+	t_raycast raycast;
 
-	int stripe_width = WIN_W / RAYS;
-	float fov_rad = FOV * (M_PI / 180);
-	float ray_angle = master->player.angle - (fov_rad / 2);
-	float angle_between_rays = fov_rad / RAYS;
-	float fisheye_angle;
-	float ray_y;
-	float ray_x;
-	float ray_len;
-	int wall_height;
-	int map_x;
-	int map_y;
-	int wall_top;
-	int wall_bottom;
-	int stripe_end;
+	init_raycast(&raycast, master);
 
-
-	int color;
-	float increment;
-
-	if (ray_angle < 0)
-		ray_angle = 2 * M_PI + ray_angle;
-	printf("/n/n/n/n new rays/n");
+	if (raycast.ray_angle < 0)
+		raycast.ray_angle = raycast.twopi + raycast.ray_angle;
 	// float max_wall_distance = count_max_ray(master);/* Calculate the maximum distance from the player to the farthest wall */;
 	while (i < RAYS)
 	{
-		increment = 0.01;
-		color = 0x000000;
-		ray_len = 0.05;
-		ray_x = master->player.x;
-		ray_y = master->player.y;
-		while (ray_x >= 0 && ray_x <= WIN_W && ray_y >= 0 && ray_y <= WIN_H)
-		{
-			ray_x = master->player.x + cos(ray_angle) * ray_len;
-			ray_y = master->player.y + sin(ray_angle) * ray_len;
-			map_x = ray_x / master->minimap.block;
-			map_y = ray_y / master->minimap.block;
-			if (map_x >= 0 && map_x < master->data.mapsize[0] && map_y >= 0 && map_y < master->data.mapsize[1] && master->data.map[map_y][map_x] == '1')
-				break;
-			ray_len += 0.05;
-		}
+		raycast.color = 0x000000;
+		raycast.ray_len = 0.05;
 		
-		//fix fisheye
-		fisheye_angle = master->player.angle - ray_angle;
-		if (fisheye_angle < 0)
-			fisheye_angle = 2 * M_PI + fisheye_angle;
-		if (fisheye_angle > 2 * M_PI)
-			fisheye_angle = fisheye_angle - 2 * M_PI;
-		ray_len = ray_len * cos(fisheye_angle);
-
-		// printf("wall dist %f\n", wall_distance);
-		// printf("wall dist: %f\n", wall_distance);
-
-		//these lines make it bretty psychedeilg
-		// float perpendicular_distance = ray_len * cos(ray_angle - master->player.angle);
-		// int wall_height = BLOCKSIZE / perpendicular_distance * 40;
-
-		wall_height = 5000 / ray_len; // Scale the wall height based on the distance ratio
-			printf("ray %d wall height %d\n",i,  wall_height);
-		wall_top = WIN_H / 2 - wall_height / 2;
-		wall_bottom = WIN_H / 2 + wall_height / 2;
-		y = wall_top;
-		stripe_end = x + stripe_width;
-
-		wall_analyzerv2(ray_y, ray_x, ray_angle, master, &color);
-		while(x < stripe_end && x < WIN_W && y < WIN_H)
+		raycast.cos_angle = cos(raycast.ray_angle);
+		raycast.sin_angle = sin(raycast.ray_angle);
+		while (raycast.ray_x >= 0 && raycast.ray_x <= WIN_W && raycast.ray_y >= 0 && raycast.ray_y <= WIN_H)
 		{
-			y = wall_top;
-			while (y < wall_bottom)
+			raycast.ray_x = master->player.x + raycast.cos_angle * raycast.ray_len;
+			raycast.ray_y = master->player.y + raycast.sin_angle * raycast.ray_len;
+			raycast.map_x = raycast.ray_x / master->minimap.block;
+			raycast.map_y = raycast.ray_y / master->minimap.block;
+			if (raycast.map_x >= 0 && raycast.map_x < master->data.mapsize[0] && raycast.map_y >= 0 && raycast.map_y < master->data.mapsize[1] && master->data.map[raycast.map_y][raycast.map_x] == '1')
+				break;
+			raycast.ray_len += 0.05;
+		}
+
+		//fix fisheye
+		raycast.fisheye_angle = master->player.angle - raycast.ray_angle;
+		if (raycast.fisheye_angle < 0)
+			raycast.fisheye_angle = raycast.twopi + raycast.fisheye_angle;
+		if (raycast.fisheye_angle > raycast.twopi)
+			raycast.fisheye_angle = raycast.fisheye_angle - raycast.twopi;
+		raycast.ray_len = raycast.ray_len * cos(raycast.fisheye_angle);
+
+		raycast.wall_height = 5000 / raycast.ray_len; // give a nice constant for wall scaling
+		raycast.wall_top = raycast.halfwin - raycast.wall_height / 2;
+		raycast.wall_bottom = raycast.halfwin + raycast.wall_height / 2;
+		y = raycast.wall_top;
+		raycast.stripe_end = x + raycast.stripe_width;
+
+		wall_analyzerv2(raycast.ray_y, raycast.ray_x, raycast.ray_angle, master, &raycast.color);
+		while(x < raycast.stripe_end && x < WIN_W && y < WIN_H)
+		{
+			y = raycast.wall_top;
+			while (y < raycast.wall_bottom)
 			{
 				if (x > 0 && y > 0 && x < WIN_W && y < WIN_H)
-					my_mlx_pixel_put(img, x, y, color);
+					my_mlx_pixel_put(img, x, y, raycast.color);
 				y++;
 			}
 			x++;
 		}
 
-		ray_angle += angle_between_rays;
-		if (ray_angle > 2 * M_PI)
-			ray_angle = ray_angle - 2 * M_PI;
+		raycast.ray_angle += raycast.angle_between_rays;
+		if (raycast.ray_angle > raycast.twopi)
+			raycast.ray_angle = raycast.ray_angle - raycast.twopi;
 		i++;
 	}
 }

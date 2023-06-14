@@ -10,10 +10,33 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
-# define RAYS 320
+# define RAYS 160
 # define BLOCKSIZE 320
-# define FOV 90
+# define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
+
+typedef struct s_raycast
+{
+	int		stripe_width;
+	float	fov_rad;
+	float	ray_angle;
+	float	angle_between_rays;
+	float	fisheye_angle;
+	float	ray_y;
+	float	ray_x;
+	float	ray_len;
+	int		wall_height;
+	int		map_x;
+	int		map_y;
+	int		wall_top;
+	int		wall_bottom;
+	int		stripe_end;
+	int		color;
+	float	cos_angle;
+	float	sin_angle;
+	float	twopi;
+	int		halfwin;
+}				t_raycast;
 
 typedef struct s_data
 {
