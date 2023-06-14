@@ -48,6 +48,10 @@ typedef struct s_data
 	unsigned int s_int;
     char **map;
 	int mapsize[2]; //wid, hei
+	int *north;
+	int *east;
+	int *south;
+	int *west;
 }               t_data;
 
 typedef struct s_player
@@ -81,10 +85,13 @@ typedef struct s_mlxinfo
 typedef struct s_img
 {
 	void			*img;
+	int				*data;
 	char			*addr;
 	int				bpp;
 	int				llen;
 	int				en;
+	int				img_width;
+	int				img_height;
 }				t_img;
 
 typedef struct s_minimap_coords
@@ -117,6 +124,10 @@ typedef struct t_master
 	t_minimap_coords minimap;
 	t_keylog		keylog;
 }				t_master;
+
+//process_textures.c
+int    *load_image(t_master *master, char *path, t_img *img);
+void    process_textures(t_master *master);
 
 //run_cub3d.c
 int		update_game(t_master *master);
