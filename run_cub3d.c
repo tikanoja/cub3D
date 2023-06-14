@@ -18,26 +18,29 @@ int is_wall(float x, float y, t_master *master, float buffer_distance)
 
     return 0;
 }
-
+//add collision distance to other directions?
 
 int update_game(t_master *master)
 {
-	float movement_speed = 2;
+	float movement_speed = 1.5;
 	int updateflag = 0;
 	int new_x, new_y;
 
 	if (master->keylog.W == 1 || master->keylog.UP == 1) // Move forward
 	{
+		printf("value im trying to use is %d\n",master->minimap.block / 2 );
 		new_x = round(master->player.x + movement_speed * cos(master->player.angle));
 		new_y = round(master->player.y + movement_speed * sin(master->player.angle));
-		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
+    	int sign_x = cos(master->player.angle) >= 0 ? -WALLDIST : WALLDIST;
+    	int sign_y = sin(master->player.angle) >= 0 ? -WALLDIST : WALLDIST;
+
+   		if (!is_wall(new_x - sign_x, new_y - sign_y, master, master->minimap.block) || GOD_MODE == 0)
 		{
 			master->player.x = new_x;
 			master->player.y = new_y;
 			updateflag = 1;
 		}
 	}
-
 	if (master->keylog.S == 1 || master->keylog.DOWN == 1) // Move backward
 	{
 		new_x = round(master->player.x - movement_speed * cos(master->player.angle));

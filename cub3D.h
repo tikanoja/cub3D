@@ -10,10 +10,11 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
-# define RAYS 160
+# define RAYS 320
 # define BLOCKSIZE 320
 # define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
+# define WALLDIST 7
 
 typedef struct s_raycast
 {
