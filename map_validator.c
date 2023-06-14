@@ -125,6 +125,7 @@ int is_map_connected(t_data *data)
 				start_col = j;
 				break ;
 			}
+			j++;
 		}
 		if (start_row != -1 && start_col != -1)
 			break ;
