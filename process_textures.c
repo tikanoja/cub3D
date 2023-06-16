@@ -8,6 +8,7 @@ int    *load_image(t_master *master, char *path, t_img *img)
 
     y = 0;
     x = 0;
+    write(1, "HELLO\n", 6);
     img->img = mlx_xpm_file_to_image(master->mlx.mlx_ptr, path, &img->img_width, &img->img_height);
     img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->llen, &img->en);
     texture = malloc(sizeof(int *) * (img->img_height * img->img_width));

@@ -4,8 +4,8 @@ void	drawinit(t_bres *bres, t_player *coords)
 {
 	bres->x = coords->x;
 	bres->y = coords->y;
-	bres->dx = abs(coords->endx - coords->x);
-	bres->dy = -abs(coords->endy - coords->y);
+	bres->dx = fabsf(coords->endx - coords->x);
+	bres->dy = -fabsf(coords->endy - coords->y);
 	if (bres->x < coords->endx)
 		bres->stepx = 1;
 	else

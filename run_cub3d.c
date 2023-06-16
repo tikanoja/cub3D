@@ -24,13 +24,13 @@ int update_game(t_master *master)
 {
 	float movement_speed = 1.5;
 	int updateflag = 0;
-	int new_x, new_y;
+	float new_x, new_y;
 
 	if (master->keylog.W == 1 || master->keylog.UP == 1) // Move forward
 	{
-		printf("value im trying to use is %d\n",master->minimap.block / 2 );
-		new_x = round(master->player.x + movement_speed * cos(master->player.angle));
-		new_y = round(master->player.y + movement_speed * sin(master->player.angle));
+		// printf("value im trying to use is %d\n",master->minimap.block / 2 );
+		new_x = master->player.x + movement_speed * cos(master->player.angle);
+		new_y = master->player.y + movement_speed * sin(master->player.angle);
     	int sign_x = cos(master->player.angle) >= 0 ? -WALLDIST : WALLDIST;
     	int sign_y = sin(master->player.angle) >= 0 ? -WALLDIST : WALLDIST;
 
@@ -43,8 +43,8 @@ int update_game(t_master *master)
 	}
 	if (master->keylog.S == 1 || master->keylog.DOWN == 1) // Move backward
 	{
-		new_x = round(master->player.x - movement_speed * cos(master->player.angle));
-		new_y = round(master->player.y - movement_speed * sin(master->player.angle));
+		new_x = master->player.x - movement_speed * cos(master->player.angle);
+		new_y = master->player.y - movement_speed * sin(master->player.angle);
 		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
 		{
 			master->player.x = new_x;
@@ -55,8 +55,8 @@ int update_game(t_master *master)
 
 	if (master->keylog.A == 1) // Move left
 	{
-		new_x = round(master->player.x + movement_speed * sin(master->player.angle));
-		new_y = round(master->player.y - movement_speed * cos(master->player.angle));
+		new_x = master->player.x + movement_speed * sin(master->player.angle);
+		new_y = master->player.y - movement_speed * cos(master->player.angle);
 		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
 		{
 			master->player.x = new_x;
@@ -67,8 +67,8 @@ int update_game(t_master *master)
 
 	if (master->keylog.D == 1) // Move right
 	{
-		new_x = round(master->player.x - movement_speed * sin(master->player.angle));
-		new_y = round(master->player.y + movement_speed * cos(master->player.angle));
+		new_x = master->player.x - movement_speed * sin(master->player.angle);
+		new_y = master->player.y + movement_speed * cos(master->player.angle);
 		if (!is_wall(new_x, new_y, master, master->minimap.block) || GOD_MODE == 0)
 		{
 			master->player.x = new_x;
@@ -80,16 +80,16 @@ int update_game(t_master *master)
 	if (master->keylog.LEFT == 1) // Rotate left
 	{
 		master->player.angle -= 0.03;
-		if (master->player.angle <= 0)
-			master->player.angle = 2 * M_PI;
+		if (master->player.angle < 0)
+			master->player.angle = 2 * M_PI + master->player.angle;
 		updateflag = 1;
 	}
 
 	if (master->keylog.RIGHT == 1) // Rotate right
 	{
 		master->player.angle += 0.03;
-		if (master->player.angle >= 2 * M_PI)
-			master->player.angle = 0;
+		if (master->player.angle > 2 * M_PI)
+			master->player.angle = master->player.angle - 2 * M_PI;
 		updateflag = 1;
 	}
 
@@ -110,6 +110,10 @@ void	run_cub3d(t_master *master)
 	master->img.img = mlx_new_image(master->mlx.mlx_ptr, WIN_W, WIN_H);
 	master->img.addr = mlx_get_data_addr(master->img.img, &master->img.bpp, &master->img.llen, &master->img.en);
 	draw_background(master, &master->img);
+	raycaster(master, &master->img);
+	//playercoordss
+	//rc
+
 	draw_minimap(master, &master->img);
 	mlx_put_image_to_window(master->mlx.mlx_ptr, master->mlx.mlx_win, master->img.img, 0, 0);
 }
@@ -120,8 +124,8 @@ void	init_cub3d(t_master master)
 	master.img.addr = mlx_get_data_addr(master.img.img, &master.img.bpp, &master.img.llen, &master.img.en);
 	draw_background(&master, &master.img);
 	draw_minimap(&master, &master.img);
+	raycaster(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
-
 	mlx_hook(master.mlx.mlx_win, 2, 0, key_press, &master);
 	mlx_hook(master.mlx.mlx_win, 3, 0, key_release, &master);
 	mlx_loop_hook(master.mlx.mlx_ptr, update_game, &master); //taa ois mlx loop hook

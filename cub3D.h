@@ -16,6 +16,7 @@
 # define GOD_MODE 1 //0 enables walking trough walls
 # define WALLDIST 7
 
+
 typedef struct s_raycast
 {
 	int		stripe_width;
@@ -37,7 +38,28 @@ typedef struct s_raycast
 	float	sin_angle;
 	float	twopi;
 	int		halfwin;
+	int		y;
+	int		x;
+	int		i;
 }				t_raycast;
+
+typedef struct s_dda
+{
+	int		map_x;
+	int		map_y;
+	float	ray_x_h;
+	float	ray_y_h;
+	float	ray_x_v;
+	float	ray_y_v;
+	float 	ray_len_horz;
+	int		i;
+	float 	y_offset;
+	float	x_offset;
+	int 	hit;
+	float 	ray_len_vert;
+	float 	nTan;
+	float 	aTan;
+}				t_dda;
 
 typedef struct s_data
 {
@@ -57,8 +79,8 @@ typedef struct s_data
 
 typedef struct s_player
 {
-	int x; //float??
-	int y; //float??
+	float x; //float??
+	float y; //float??
 	int endx;
 	int endy;
 	double angle;
@@ -152,6 +174,7 @@ void 	raycaster(t_master *master, t_img *img);
 //minimap.c
 void	init_minimap_coords(t_minimap_coords *coords, t_master *master);
 void	draw_minimap(t_master *master, t_img *img);
+void	get_player_coords(t_master *master);
 
 //errors.c
 void free_data(t_data *data, char *msg);
