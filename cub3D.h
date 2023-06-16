@@ -41,6 +41,15 @@ typedef struct s_raycast
 	int		y;
 	int		x;
 	int		i;
+	int		*texture;
+	int		side; // 0 on ns 1 on ew
+	float	step;
+	float	textpos;
+	float	textx;
+	float	texty;
+	float	og_ray_x;
+	float	og_ray_y;
+
 }				t_raycast;
 
 typedef struct s_dda
@@ -209,5 +218,8 @@ void    validity_checker(int ac, char **av);
 int	freeandexit(t_master *master);
 void	init_cub3d(t_master master);
 int	main(int ac, char **av);
+
+void txt_raycaster(t_master *master, t_img *img);
+
 
 #endif

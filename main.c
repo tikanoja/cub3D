@@ -76,7 +76,7 @@ int main(int ac, char **av)
     map_parser(&master.data);
 	get_map_size(&master.data);
     map_validator(&master.data);
-	//process_textures(&master);
+	process_textures(&master);
 	//printmap(master.data);
 	init_mlx(&master);
 	init_cub3d(master);
