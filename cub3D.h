@@ -14,7 +14,7 @@
 # define BLOCKSIZE 320
 # define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
-# define WALLDIST 7
+# define WALLDIST 4
 
 
 typedef struct s_raycast

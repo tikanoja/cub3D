@@ -325,7 +325,7 @@ void	wall_scaler(t_raycast *rc, t_master *master)
 
 void	draw_stripe(t_raycast *rc, t_img *img)
 {
-	while(rc->x < rc->stripe_end && rc->x < WIN_W && rc->y < WIN_H)
+	while(rc->x < rc->stripe_end)
 	{
 		rc->y = rc->wall_top;
 		while (rc->y < rc->wall_bottom)

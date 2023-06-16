@@ -281,7 +281,7 @@ void    draw_player(t_master *master, t_img *img)
 		start_x = end_x - 5;
 		start_y++;
 	}
-	draw_direction(master, img);
+	//draw_direction(master, img);
 	//raycaster(master, img);
 }
 
