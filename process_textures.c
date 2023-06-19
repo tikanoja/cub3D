@@ -45,13 +45,47 @@ void    texture_extension_check(t_master *master)
     }
 }
 
+void    free_textures(t_master *master, int flag)
+{
+    if (flag == 1)
+        free(master->data.north.array);
+    else if (flag == 2)
+    {
+        free(master->data.north.array);
+        free(master->data.east.array);
+    }
+    else if (flag == 3)
+    {
+        free(master->data.north.array);
+        free(master->data.east.array);
+        free(master->data.west.array);
+    }
+    else if (flag == 4)
+    {
+        free(master->data.north.array);
+        free(master->data.south.array);
+        free(master->data.east.array);
+        free(master->data.west.array);
+    }
+    if (flag != 4)
+        free_data_closed_fd(&master->data, "Malloc failed!\n");
+}
+
 void    process_textures(t_master *master)
 {
     t_img   img;
     
     texture_extension_check(master);
     master->data.north = load_image(master, master->data.wall[0], &img);
+    if (master->data.north.array == NULL)
+        free_data_closed_fd(&master->data, "Malloc failed!\n");
     master->data.east = load_image(master, master->data.wall[1], &img);
+    if (master->data.east.array == NULL)
+        free_textures(master, 1);
     master->data.south = load_image(master, master->data.wall[2], &img);
+    if (master->data.south.array == NULL)
+        free_textures(master, 2);
     master->data.west = load_image(master, master->data.wall[3], &img);
+    if (master->data.west.array == NULL)
+        free_textures(master, 3);
 }

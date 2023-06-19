@@ -164,6 +164,7 @@ typedef struct t_master
 }				t_master;
 
 //process_textures.c
+void    free_textures(t_master *master, int flag);
 t_texture    load_image(t_master *master, char *path, t_img *img);
 void    process_textures(t_master *master);
 
@@ -192,6 +193,7 @@ void	draw_minimap(t_master *master, t_img *img);
 void	get_player_coords(t_master *master);
 
 //errors.c
+int    exit_gracefully(t_master *master);
 void free_data(t_data *data, char *msg);
 void free_data_closed_fd(t_data *data, char *msg);
 void free_char_arr(char **arr);

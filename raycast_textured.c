@@ -22,8 +22,7 @@ void	init_raycast(t_raycast *raycast, t_master *master)
 
 void	wall_handler(t_raycast *rc, t_dda *dda, t_master *master)
 {
-	printf("vert len: %f, horz len %f\n\n", dda->ray_len_vert, dda->ray_len_horz);
-	if (dda->ray_len_horz < dda->ray_len_vert) //NORTH OR SOUTH
+	if (dda->ray_len_horz < dda->ray_len_vert)
 	{
 		rc->side = 0;
 		rc->ray_len = dda->ray_len_horz;
@@ -37,7 +36,7 @@ void	wall_handler(t_raycast *rc, t_dda *dda, t_master *master)
 		else 
 			rc->texture = &master->data.north;
 	}
-	else //EAST OR WEST
+	else
 	{
 		rc->side = 1;
 		rc->ray_len = dda->ray_len_vert;
@@ -56,21 +55,21 @@ void dda_horizontal(t_dda *dda, t_raycast *rc, t_master *master)
 {
 	dda->hit = 0;
 	dda->aTan = -1 / tan(rc->ray_angle);
-	if (rc->ray_angle > M_PI) // looking up
+	if (rc->ray_angle > M_PI)
 	{
 		dda->ray_y_h = (int)master->player.y - ((int)master->player.y % master->minimap.block) - 0.0001;
 		dda->ray_x_h = (master->player.y - dda->ray_y_h) * dda->aTan + master->player.x;
 		dda->y_offset = -master->minimap.block;
 		dda->x_offset = -dda->y_offset *dda->aTan;
 	}
-	if (rc->ray_angle < M_PI) // looking down
+	if (rc->ray_angle < M_PI)
 	{
 		dda->ray_y_h = (int)master->player.y - ((int)master->player.y % master->minimap.block) + master->minimap.block;
 		dda->ray_x_h = (master->player.y - dda->ray_y_h) * dda->aTan + master->player.x;
 		dda->y_offset = master->minimap.block;
 		dda->x_offset = -dda->y_offset * dda->aTan;
 	}
-	if (rc->ray_angle == (float)M_PI || rc->ray_angle == 0) // looking directly down
+	if (rc->ray_angle == (float)M_PI || rc->ray_angle == 0)
 	{
 		dda->ray_x_h = master->player.x;
 		dda->ray_y_h = master->player.y;
@@ -81,23 +80,22 @@ void dda_horizontal(t_dda *dda, t_raycast *rc, t_master *master)
 void dda_vertical(t_dda *dda, t_raycast *rc, t_master *master)
 {
 	dda->hit = 0;
-	//VERTICAL
 	dda->nTan = -tan(rc->ray_angle);
-	if (rc->ray_angle > M_PI / 2 && rc->ray_angle < 3 * M_PI / 2) // looking left
+	if (rc->ray_angle > M_PI / 2 && rc->ray_angle < 3 * M_PI / 2)
 	{
 		dda->ray_x_v = (int)master->player.x - ((int)master->player.x % master->minimap.block) - 0.0001;
 		dda->ray_y_v = (master->player.x - dda->ray_x_v) * dda->nTan + master->player.y;
 		dda->x_offset = -master->minimap.block;
 		dda->y_offset = -dda->x_offset * dda->nTan;
 	}
-	if (rc->ray_angle < M_PI / 2 || rc->ray_angle > 3 * M_PI / 2) // looking right
+	if (rc->ray_angle < M_PI / 2 || rc->ray_angle > 3 * M_PI / 2)
 	{
 		dda->ray_x_v = (int)master->player.x - ((int)master->player.x % master->minimap.block) + master->minimap.block;
 		dda->ray_y_v = (master->player.x - dda->ray_x_v) * dda->nTan + master->player.y;
 		dda->x_offset = master->minimap.block;
 		dda->y_offset = -dda->x_offset * dda->nTan;
 	}
-	if (rc->ray_angle == 0 || rc->ray_angle == (float)M_PI) // looking directly up
+	if (rc->ray_angle == 0 || rc->ray_angle == (float)M_PI)
 	{
 		dda->ray_x_v = master->player.x;
 		dda->ray_y_v = master->player.y;
@@ -105,7 +103,7 @@ void dda_vertical(t_dda *dda, t_raycast *rc, t_master *master)
 	}
 }
 
-void dda_loop_horizontal(t_dda *dda, t_master *master)//, t_raycast *rc)
+void dda_loop_horizontal(t_dda *dda, t_master *master)
 {
 	dda->ray_len_horz = 0;
 	while (!dda->hit && dda->ray_x_h >= 0 && dda->ray_y_h >= 0)
@@ -122,8 +120,6 @@ void dda_loop_horizontal(t_dda *dda, t_master *master)//, t_raycast *rc)
 		if (dda->ray_x_h > WIN_W || dda->ray_y_h > WIN_H)
 			break;
 	}
-	// if (rc->ray_angle > M_PI)
-	// 	dda->ray_y_h += 1.0001;
 	if (dda->ray_x_h > WIN_W || dda->ray_x_h < 0)
 		dda->ray_x_h = master->player.x;
 	if (dda->ray_y_h > WIN_H || dda->ray_y_h < 0)
@@ -134,7 +130,7 @@ void dda_loop_horizontal(t_dda *dda, t_master *master)//, t_raycast *rc)
 		dda->ray_len_horz = sqrt(pow(dda->ray_y_h - master->player.y, 2) + pow(dda->ray_x_h - master->player.x, 2));
 }
 
-void dda_loop_vertical(t_dda *dda, t_master *master)//, t_raycast *rc)
+void dda_loop_vertical(t_dda *dda, t_master *master)
 {
 	dda->ray_len_vert = 0;
 	while (!dda->hit && dda->ray_x_v >= 0 && dda->ray_y_v >= 0)
@@ -151,8 +147,6 @@ void dda_loop_vertical(t_dda *dda, t_master *master)//, t_raycast *rc)
 		if (dda->ray_x_v > WIN_W || dda->ray_y_v > WIN_H)
 			break;
 	}
-	// if (rc->ray_angle > M_PI / 2 && rc->ray_angle < 3 * M_PI / 2)
-	// 	dda->ray_x_v += 1.0001;
 	if (dda->ray_x_v > WIN_W || dda->ray_x_v < 0)
 		dda->ray_x_v = master->player.x;
 	if (dda->ray_y_v > WIN_H || dda->ray_y_v < 0)
@@ -168,9 +162,9 @@ void dda(t_raycast *rc, t_master *master)
 	t_dda dda;
 
 	dda_horizontal(&dda, rc, master);
-	dda_loop_horizontal(&dda, master);//, rc);
+	dda_loop_horizontal(&dda, master);
 	dda_vertical(&dda, rc, master);
-	dda_loop_vertical(&dda, master);//, rc);
+	dda_loop_vertical(&dda, master);
 	wall_handler(rc, &dda, master);
 }
 
@@ -178,7 +172,6 @@ void	wall_scaler(t_raycast *rc, t_master *master)
 {
 	if (rc->side == 0)
 	{
-		//tex alotuspiste ray end x perusteella
 		rc->textx = fmod(rc->og_ray_x, master->minimap.block);
 		rc->textx = rc->textx / master->minimap.block * rc->texture->width;
 	}
@@ -186,10 +179,7 @@ void	wall_scaler(t_raycast *rc, t_master *master)
 	{
 		rc->textx = fmod(rc->og_ray_y, master->minimap.block);
 		rc->textx = rc->textx / master->minimap.block * rc->texture->width;
-		//tex alotuspiste ray end y perusteella
 	}
-	//printf("textx: %f\n", rc->textx);
-	//int tesxpos
 	rc->fisheye_angle = master->player.angle - rc->ray_angle;
 	if (rc->fisheye_angle < 0)
 		rc->fisheye_angle = 2 * M_PI + rc->fisheye_angle;
@@ -197,49 +187,13 @@ void	wall_scaler(t_raycast *rc, t_master *master)
 		rc->fisheye_angle = rc->fisheye_angle - 2 * M_PI;
 	rc->ray_len = rc->ray_len * cos(rc->fisheye_angle);
 	
-	rc->wall_height = 7000 / rc->ray_len; // give a nice constant for wall scaling
+	rc->wall_height = master->minimap.block * 700 / rc->ray_len;
 	rc->wall_top = rc->halfwin - rc->wall_height / 2;
 	rc->wall_bottom = rc->halfwin + rc->wall_height / 2;
 	rc->y = rc->wall_top;
 	rc->stripe_end = rc->x + rc->stripe_width;
 }
 
-// void	draw_stripe(t_raycast *rc, t_img *img)
-// {
-// 	// rc->step = ceilf(1.0 * 256 / rc->wall_height);
-// 	rc->step = 256 / rc->wall_height;
-
-// 	//rc->textpos = (rc->wall_top +  rc->wall_height / 2) * rc->step; //ota text size talteen process_textures()
-// 	//mika x?? (drawStart - height / 2 + lineHeight / 2) * step;
-// 	while(rc->x <= rc->stripe_end)
-// 	{
-// 		rc->y = rc->wall_top;
-// 		rc->texty = 0 + rc->textx;
-// 		// printf("texty is %f\n", rc->texty);
-// 		while (rc->y <= rc->wall_bottom)
-// 		{
-// 			// printf("color is %d\n",rc->texture[(int)rc->texty + (int)rc->textx]);
-// 			// printf("reding index %d putting px to x %d y %d color is %d\n", ((int)rc->texty + (int)rc->step * 256) + (int)rc->textx, rc->x, rc->y + 1, rc->texture[((int)rc->texty + (int)rc->step * 256) + (int)rc->textx]);
-// 			if (rc->x > 0 && rc->y > 0 && rc->x < WIN_W && rc->y < WIN_H)
-// 				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture[(int)(rc->texty)]);
-// 			// printf("AFTER!!!reding index %d putting px to x %d y %d\n", (int)rc->texty + (int)rc->textx, rc->x, rc->y);
-// 			rc->y++;
-// 			rc->texty += rc->step * 256;
-// 			if (rc->texty > 256 * 256)
-// 				rc->texty = 0;
-// 		}
-// 		rc->x++;
-// 		rc->textx += rc->step;
-// 		// rc->textx++;
-// 		if (rc->textx > 255)
-// 			rc->textx = 0;
-// 	}
-	
-// 	rc->ray_angle += rc->angle_between_rays;
-// 	if (rc->ray_angle > 2 * M_PI)
-// 		rc->ray_angle = rc->ray_angle - 2 * M_PI;
-// 	rc->i++;
-// }
 void draw_stripe(t_raycast *rc, t_img *img)
 {
 	int txtindex;

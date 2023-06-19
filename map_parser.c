@@ -32,6 +32,7 @@ int		dupcheck(char *wall, char *line, t_data *data)
 	if (wall)
 	{
 		free(line);
+		ft_putstr_fd("Error\n", 2);
 		free_data(data, "Duplicate point of compass!\n");
 	}
 	return (0);
@@ -88,8 +89,7 @@ void	split_colors(char **temp, int *data)
 void free_color_args(char **temp, t_data *data)
 {
 	free_char_arr(temp);
-	// if (color)
-	// 	free(color);
+	ft_putstr_fd("Error\n", 2);
 	free_data(data, "Wrong color argument!\n");
 }
 
@@ -218,6 +218,7 @@ int	fill_to_struct(t_data *data, char *line)
 	if (status == -1)
 	{
 		free(line);
+		ft_putstr_fd("Error\n", 2);
 		free_data(data, "Garbage values\n");
 	}
 	return (status);
@@ -282,12 +283,25 @@ int rgb_to_int(int rgb[3])
 	return (combinedValue);
 }
 
+void	check_double_map(t_data *data, char *line)
+{
+	while (line != NULL)
+	{
+		if (*line != '\n' && *line != ' ')
+			free_data(data, "Double map!\n");
+		free(line);
+		line = get_next_line(data->fd);
+	}
+}
+
 void	map_parser(t_data *data)
 {
 	char	*line;
 	char	*map;
 	int		filled;
+	int		flag;
 
+	flag = 0;
 	filled = 0;
 	line = NULL;
 	map = NULL;
@@ -301,15 +315,28 @@ void	map_parser(t_data *data)
 	init_parsing(data);
 	while (line != NULL)
 	{
+		if (map && ft_strchr(map, '1'))
+			flag = 1;
+		if (*line == '\n' && flag == 1)
+		{
+			check_double_map(data, line);
+			break ;
+		}
 		if (check_empty_line(line) != 1 && filled == 0)
 			filled = fill_to_struct(data, line);
-		else if (check_empty_line(line) != 1 && filled == 1)
+		else if (filled == 1)
+		{
 			map = ft_strjoin_map(map, line);
+			if (map == NULL)
+				free_data(data, "Malloc failed!\n");
+		}
 		free(line);
 		line = get_next_line(data->fd);
 	}
 	close(data->fd);
 	data->map = ft_split(map, '\n');
+	if (data->map == NULL)
+		free_data_closed_fd(data, "Malloc failed!\n");
 	free(map);
 	if (data->map == NULL)
 		free_data(data, "Malloc failed!\n");

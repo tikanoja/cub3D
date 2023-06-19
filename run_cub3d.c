@@ -128,17 +128,15 @@ int update_game(t_master *master)
 
 void	run_cub3d(t_master *master)
 {
-	static int flag;
+	// static int flag;
 
-	if (flag != 0)
+	// if (flag != 0)
 		mlx_destroy_image(master->mlx.mlx_ptr, master->img.img);
-	flag = 1;
+	// flag = 1;
 	master->img.img = mlx_new_image(master->mlx.mlx_ptr, WIN_W, WIN_H);
 	master->img.addr = mlx_get_data_addr(master->img.img, &master->img.bpp, &master->img.llen, &master->img.en);
 	draw_background(master, &master->img);
 	txt_raycaster(master, &master->img);
-	//playercoordss
-	//rc
 
 	draw_minimap(master, &master->img);
 	mlx_put_image_to_window(master->mlx.mlx_ptr, master->mlx.mlx_win, master->img.img, 0, 0);
@@ -152,9 +150,9 @@ void	init_cub3d(t_master master)
 	draw_minimap(&master, &master.img);
 	txt_raycaster(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, master.img.img, 0, 0);
+	mlx_hook(master.mlx.mlx_win, 17, 0, exit_gracefully, &master);
 	mlx_hook(master.mlx.mlx_win, 2, 0, key_press, &master);
 	mlx_hook(master.mlx.mlx_win, 3, 0, key_release, &master);
 	mlx_loop_hook(master.mlx.mlx_ptr, update_game, &master); //taa ois mlx loop hook
-	mlx_hook(master.mlx.mlx_win, 17, 0, freeandexit, &master.mlx);
 	mlx_loop(master.mlx.mlx_ptr);
 }

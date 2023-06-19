@@ -7,7 +7,7 @@ int    get_fd(char *map)
     fd = open(map, O_RDONLY);
     if (fd == -1)
     {
-        perror("Error opening map");
+        ft_putstr_fd("Error\n", 2);
         printf("Please fix path/rights & thank you for your patience! :)\n");
         exit(1);
     }
@@ -42,6 +42,7 @@ void    arg_checker(int ac, char **av)
 
     if (ac != 2)
     {
+        ft_putstr_fd("Error\n", 2);
         printf("Please give one (1) argument. (path to '.cub' file)\n");
         exit (1);
     }
@@ -50,16 +51,19 @@ void    arg_checker(int ac, char **av)
         arglen = ft_strlen(av[1]);
         if (arglen <= 4)
         {
+            ft_putstr_fd("Error\n", 2);
             printf("Please give a valid map. (ex. 'map.cub' or './maps/maze.cub')\n");
             exit (1);
         }
         else if (are_there_any_whitespaces(av[1]) == 1)
         {
+            ft_putstr_fd("Error\n", 2);
             printf("What are you trying to do?\n");
             exit (1);
         }
         else if (ft_strncmp(&av[1][arglen - 4], ".cub", 4) != 0)
         {
+            ft_putstr_fd("Error\n", 2);
             printf("Please give a valid map. (ex. 'map.cub' or './maps/maze.cub')\n");
             exit (1);
         }

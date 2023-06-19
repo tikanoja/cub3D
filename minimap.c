@@ -23,7 +23,6 @@ void	get_angle(t_master *master, char c)
 		master->player.angle = 3 * M_PI / 2;
 	else if (c == 'W')
 		master->player.angle = M_PI;
-	printf("player angle %f and char is %c\n", master->player.angle, c);
 }
 void    get_player_coords(t_master *master)
 {
@@ -281,7 +280,7 @@ void    draw_player(t_master *master, t_img *img)
 		start_x = end_x - 5;
 		start_y++;
 	}
-	draw_direction(master, img);
+	draw_direction(master, img); //piirtaa vaa pien nuoli
 	//raycaster(master, img);
 }
 

@@ -4,7 +4,7 @@ int	key_press(int keycode, t_master *master)
 {
 	if (keycode == 53 || keycode == 6)
 	{
-		freeandexit(master);
+		exit_gracefully(master);
 	}
 	else if (keycode == 13 || keycode == 126) //anglen suuntaan
 	{

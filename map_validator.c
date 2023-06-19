@@ -16,6 +16,7 @@ void    texture_rights_checker(t_data *data)
 				free_char_arr(data->map);
 			if (data && data->wall)
 				free_char_arr(data->wall);
+			ft_putstr_fd("Error\n", 2);
 			perror("Error opening wall texture");
 			ft_putstr_fd("Please fix path/rights & thank you for your patience! :)\n", 2);
 			exit(1);
@@ -106,9 +107,18 @@ int is_map_connected(t_data *data)
 	i = 0;
 	j = 0;
 	visited = ft_calloc(data->mapsize[1], sizeof(int *));
+	if (visited == NULL)
+		free_data_closed_fd(data, "Malloc failed!\n");
 	while(i < data->mapsize[1])
 	{
 		visited[i] = ft_calloc(data->mapsize[0], sizeof(int)); // number of columns
+		if (visited[i] == NULL)
+		{
+			while (--i >= 0)
+				free(visited[i]);
+			free(visited);
+			free_data_closed_fd(data, "Malloc failed!\n");
+		}
 		i++;
 	}
 	i = 0;
