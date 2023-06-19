@@ -249,12 +249,12 @@ void draw_stripe(t_raycast *rc, t_img *img)
 	while(rc->x <= rc->stripe_end)
 	{
 		rc->y = rc->wall_top;
-		txtindex = rc->textx;
-
+		txtindex = floor(rc->textx);
+		mod_step = rc->step;
 		while (rc->y <= rc->wall_bottom)
 		{
 			if (rc->x > 0 && rc->y > 0 && rc->x < WIN_W && rc->y < WIN_H)
-				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture[(int)txtindex]);
+				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture[txtindex]);
 			rc->y++;
 			if (mod_step < 1)
 				mod_step = mod_step + rc->step;
