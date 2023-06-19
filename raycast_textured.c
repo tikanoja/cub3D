@@ -237,44 +237,46 @@ void	wall_scaler(t_raycast *rc, t_master *master)
 // 		rc->ray_angle = rc->ray_angle - 2 * M_PI;
 // 	rc->i++;
 // }
-void	draw_stripe(t_raycast *rc, t_img *img)
+void draw_stripe(t_raycast *rc, t_img *img)
 {
-	float txtindex;
-	float index_save;
-	rc->step = 256 / rc->wall_height;
-
+	int txtindex;
+	float mod_step;
+	rc->step = 1.0 * 256 / (float)rc->wall_height;
+	mod_step = rc->step;
 	txtindex = rc->textx;
+	printf("step is %f wall height is %d\n", mod_step, rc->wall_height);
+
 	while(rc->x <= rc->stripe_end)
 	{
 		rc->y = rc->wall_top;
-		txtindex = 0 + rc->textx;
-		// printf("texty is %f\n", rc->texty);
+		txtindex = rc->textx;
+
 		while (rc->y <= rc->wall_bottom)
 		{
 			if (rc->x > 0 && rc->y > 0 && rc->x < WIN_W && rc->y < WIN_H)
-				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture[(int)(floor)(txtindex)]);
+				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture[(int)txtindex]);
 			rc->y++;
-			txtindex = txtindex + rc->step + 256;
-			index_save = txtindex - (floor)(txtindex);
-			if (index_save >= 1)
+			if (mod_step < 1)
+				mod_step = mod_step + rc->step;
+			else
 			{
-				txtindex += index_save;
-				index_save = 0;
+				txtindex += floor(mod_step) * 256;
+				mod_step = rc->step + fmod(mod_step, 1.0);
 			}
-			if (rc->texty > 256 * 256)
-				rc->texty = 0;
 		}
+
 		rc->x++;
 		rc->textx += rc->step;
 		if (rc->textx > 255)
 			rc->textx = 0;
 	}
-	
+
 	rc->ray_angle += rc->angle_between_rays;
 	if (rc->ray_angle > 2 * M_PI)
 		rc->ray_angle = rc->ray_angle - 2 * M_PI;
 	rc->i++;
 }
+
 
 
 void txt_raycaster(t_master *master, t_img *img)
