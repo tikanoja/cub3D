@@ -16,6 +16,12 @@
 # define GOD_MODE 1 //0 enables walking trough walls
 # define WALLDIST 4
 
+typedef struct s_texture
+{
+	int *array;
+	int width;
+	int height;
+}				t_texture;
 
 typedef struct s_raycast
 {
@@ -41,7 +47,7 @@ typedef struct s_raycast
 	int		y;
 	int		x;
 	int		i;
-	int		*texture;
+	t_texture	*texture;
 	int		side; // 0 on ns 1 on ew
 	float	step;
 	float	textpos;
@@ -80,10 +86,10 @@ typedef struct s_data
 	unsigned int s_int;
     char **map;
 	int mapsize[2]; //wid, hei
-	int *north;
-	int *east;
-	int *south;
-	int *west;
+	t_texture north;
+	t_texture east;
+	t_texture south;
+	t_texture west;
 }               t_data;
 
 typedef struct s_player
@@ -158,7 +164,7 @@ typedef struct t_master
 }				t_master;
 
 //process_textures.c
-int    *load_image(t_master *master, char *path, t_img *img);
+t_texture    load_image(t_master *master, char *path, t_img *img);
 void    process_textures(t_master *master);
 
 //run_cub3d.c

@@ -1,15 +1,15 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
+NO ./textures/tile175.xpm
+SO ./textures/tile210.xpm
+WE ./textures/tile211.xpm
 
 
-EA ./path_to_the_east_texture
+EA ./textures/tile232.xpm
 
-F 220,100,0
-C 225,30,0
+F 188,129,95
+C 135,206,235
 
 111111
 1001011
-1010001
-1100N11
+1010S01
+1100011
 111111
