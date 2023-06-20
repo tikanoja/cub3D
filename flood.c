@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:30:28 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 12:43:47 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:50:23 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void	init_connect(t_flood *f, t_data *data)
 	f->i = 0;
 }
 
-void	connect_starpoint(t_flood *f, t_data *data)
+void	connect_starpoint(t_flood *f, t_data *d)
 {
-	while (f->i < data->mapsize[1])
+	while (f->i < d->mapsize[1])
 	{
 		f->j = 0;
-		while (f->j < data->mapsize[0])
+		while (f->j < d->mapsize[0])
 		{
-			if (data->map[f->i][f->j] == '1' || data->map[f->i][f->j] == '0' ||
-				data->map[f->i][f->j] == 'E' || data->map[f->i][f->j] == 'W' ||
-				data->map[f->i][f->j] == 'S' || data->map[f->i][f->j] == 'N')
+			if (d->map[f->i][f->j] == '1' || d->map[f->i][f->j] == '0' ||
+				d->map[f->i][f->j] == 'E' || d->map[f->i][f->j] == 'W' ||
+				d->map[f->i][f->j] == 'S' || d->map[f->i][f->j] == 'N')
 			{
 				f->start_row = f->i;
 				f->start_col = f->j;
@@ -60,20 +60,20 @@ void	connect_starpoint(t_flood *f, t_data *data)
 	f->i = 0;
 }
 
-int	connect_map(t_flood *f, t_data *data)
+int	connect_map(t_flood *f, t_data *d)
 {
-	while (f->i < data->mapsize[1])
+	while (f->i < d->mapsize[1])
 	{
 		f->j = 0;
-		while ((size_t)f->j < ft_strlen(data->map[f->i]))
+		while ((size_t)f->j < ft_strlen(d->map[f->i]))
 		{
-			if ((data->map[f->i][f->j] == '1' || data->map[f->i][f->j] == '0' || \
-				data->map[f->i][f->j] == 'E' || data->map[f->i][f->j] == 'W' || \
-				data->map[f->i][f->j] == 'S' || data->map[f->i][f->j] == 'N') && \
+			if ((d->map[f->i][f->j] == '1' || d->map[f->i][f->j] == '0' || \
+				d->map[f->i][f->j] == 'E' || d->map[f->i][f->j] == 'W' || \
+				d->map[f->i][f->j] == 'S' || d->map[f->i][f->j] == 'N') && \
 				!f->visited[f->i][f->j])
 			{
 				f->j = 0;
-				while (f->j < data->mapsize[1])
+				while (f->j < d->mapsize[1])
 				{
 					free(f->visited[f->j]);
 					f->j++;
