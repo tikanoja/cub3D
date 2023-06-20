@@ -1,12 +1,24 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/06/20 10:04:13 by ttikanoj          #+#    #+#              #
+#    Updated: 2023/06/20 10:04:14 by ttikanoj         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = cub3D
 
 SRC = ./main.c arg_checker.c map_parser.c errors.c draw.c map_validator.c\
-	map_validator_utils.c minimap.c  keys.c run_cub3d.c\
-	process_textures.c raycast_textured.c
+	map_validator_utils.c minimap.c keys.c run_cub3d.c\
+	process_textures.c raycast_textured.c movement.c movement2.c
 
 OBJ = ./main.o arg_checker.o map_parser.o errors.o draw.o map_validator.o\
-	map_validator_utils.o minimap.o  keys.o run_cub3d.o\
-	process_textures.o  raycast_textured.o
+	map_validator_utils.o minimap.o keys.o run_cub3d.o\
+	process_textures.o  raycast_textured.o movement.o movement2.o
 
 HEADERS = -I ./mlx
 

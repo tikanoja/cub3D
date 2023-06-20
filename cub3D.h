@@ -23,6 +23,16 @@ typedef struct s_texture
 	int height;
 }				t_texture;
 
+typedef struct s_update
+{
+	float	mspeed;
+	int		updateflag;
+	float	new_x;
+	float	new_y;
+	int		sign_x;
+	int		sign_y;
+}				t_update;
+
 typedef struct s_raycast
 {
 	int		stripe_width;
@@ -48,7 +58,7 @@ typedef struct s_raycast
 	int		x;
 	int		i;
 	t_texture	*texture;
-	int		side; // 0 on ns 1 on ew
+	int		side;
 	float	step;
 	float	textpos;
 	float	textx;
@@ -79,13 +89,13 @@ typedef struct s_dda
 typedef struct s_data
 {
     int fd;
-    char **wall; //north, east, south, west
-    int floor[3]; //r, g, b
+    char **wall;
+    int floor[3];
 	unsigned int f_int;
-    int sky[3]; //r, g, b
+    int sky[3];
 	unsigned int s_int;
     char **map;
-	int mapsize[2]; //wid, hei
+	int mapsize[2];
 	t_texture north;
 	t_texture east;
 	t_texture south;
@@ -94,8 +104,8 @@ typedef struct s_data
 
 typedef struct s_player
 {
-	float x; //float??
-	float y; //float??
+	float x;
+	float y;
 	int endx;
 	int endy;
 	double angle;
@@ -163,12 +173,25 @@ typedef struct t_master
 	t_keylog		keylog;
 }				t_master;
 
+//movement.c
+void	strafe_left(t_update *up, t_master *master);
+void	strafe_right(t_update *up, t_master *master);
+void    rotate_left(t_update *up, t_master *master);
+void    rotate_right(t_update *up, t_master *master);
+
+//movement2.c
+void	forward(t_update *up, t_master *master);
+void	backward(t_update *up, t_master *master);
+
+
 //process_textures.c
 void    free_textures(t_master *master, int flag);
 t_texture    load_image(t_master *master, char *path, t_img *img);
 void    process_textures(t_master *master);
 
 //run_cub3d.c
+int		is_wall(float x, float y, t_master *master, float buffer_distance);
+void	init_update(t_update *up);
 int		update_game(t_master *master);
 void	run_cub3d(t_master *master);
 void	init_cub3d(t_master master);

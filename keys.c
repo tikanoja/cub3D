@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keys.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/20 10:03:54 by ttikanoj          #+#    #+#             */
+/*   Updated: 2023/06/20 10:03:57 by ttikanoj         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 int	key_press(int keycode, t_master *master)
@@ -6,12 +18,12 @@ int	key_press(int keycode, t_master *master)
 	{
 		exit_gracefully(master);
 	}
-	else if (keycode == 13 || keycode == 126) //anglen suuntaan
+	else if (keycode == 13 || keycode == 126)
 	{
 		master->keylog.W = 1;
 		master->keylog.UP = 1;
 	}
-	else if (keycode == 1 || keycode == 125) //anglen suuntaan
+	else if (keycode == 1 || keycode == 125)
 	{
 		master->keylog.S = 1;
 		master->keylog.DOWN = 1;
