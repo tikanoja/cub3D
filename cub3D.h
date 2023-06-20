@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 11:17:26 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:31:50 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 # define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
 # define WALLDIST 4
+
+typedef struct s_flood
+{
+	int	start_row;
+	int	start_col;
+	int	i;
+	int	j;
+	int	**visited;
+}				t_flood;
 
 typedef struct s_texture
 {
@@ -258,6 +267,10 @@ void		texture_rights_checker(t_data *data);
 void		map_element_checker(t_data *data);
 void		check_surrounding_walls(t_data *data);
 void		map_validator(t_data *data);
+
+//flood.c
+int		is_map_connected(t_data *data);
+void	flood_fill(t_data *data, int row, int col, t_flood *f);
 
 //map_parser.c
 void		map_parser(t_data *data);

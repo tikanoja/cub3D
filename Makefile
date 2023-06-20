@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/20 10:04:13 by ttikanoj          #+#    #+#              #
-#    Updated: 2023/06/20 10:04:14 by ttikanoj         ###   ########.fr        #
+#    Updated: 2023/06/20 12:32:02 by jaurasma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,12 @@ NAME = cub3D
 SRC = ./main.c arg_checker.c map_parser.c errors.c draw.c map_validator.c\
 	map_validator_utils.c minimap.c keys.c run_cub3d.c\
 	process_textures.c raycast_textured.c movement.c movement2.c dda.c\
-	raycast_textured_utils.c
+	raycast_textured_utils.c flood.c
 
 OBJ = ./main.o arg_checker.o map_parser.o errors.o draw.o map_validator.o\
 	map_validator_utils.o minimap.o keys.o run_cub3d.o\
 	process_textures.o  raycast_textured.o movement.o movement2.o dda.o\
-	raycast_textured_utils.o
+	raycast_textured_utils.o flood.o
 
 HEADERS = -I ./mlx
 

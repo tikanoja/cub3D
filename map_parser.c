@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:26:54 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 10:04:28 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:20:57 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 char	*trim_direction(char *direction)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	direction = direction + 2;
-	while(is_it_whitespace(*direction) == 1)
+	while (is_it_whitespace(*direction) == 1)
 		direction++;
-	while(direction[i] && direction[i] != '\n')
+	while (direction[i] && direction[i] != '\n')
 		i++;;
 	if (direction[i] && direction[i] == '\n')
 		direction [i] = '\0';
@@ -58,17 +58,17 @@ int	check_for_direction(t_data *data, char *line)
 	}
 	while(is_it_whitespace(*save) == 1)
 		save++;
-	if (ft_strncmp(line , "NO", 2) == 0 && !dupcheck(data->wall[0], line, data) \
-	&& change_happened(&happened))
+	if (ft_strncmp(line , "NO", 2) == 0 && \
+	!dupcheck(data->wall[0], line, data) && change_happened(&happened))
 		data->wall[0] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line , "EA", 2) == 0 && !dupcheck(data->wall[1], line, data) \
-	&& change_happened(&happened))
+	else if (ft_strncmp(line , "EA", 2) == 0 && \
+	!dupcheck(data->wall[1], line, data) && change_happened(&happened))
 		data->wall[1] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line , "SO", 2) == 0 && !dupcheck(data->wall[2], line, data) \
-	&& change_happened(&happened))
+	else if (ft_strncmp(line , "SO", 2) == 0 && \
+	!dupcheck(data->wall[2], line, data) && change_happened(&happened))
 		data->wall[2] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line , "WE", 2) == 0 && !dupcheck(data->wall[3], line, data) \
-	&& change_happened(&happened))
+	else if (ft_strncmp(line , "WE", 2) == 0 && \
+	!dupcheck(data->wall[3], line, data) && change_happened(&happened))
 		data->wall[3] = ft_strdup(trim_direction(save));
 	free(save);
 	return (happened);
