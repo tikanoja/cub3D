@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 12:31:50 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:09:04 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
 # define WALLDIST 4
+# define MINIMAP 1 //0 turns of minimap
 
 typedef struct s_flood
 {

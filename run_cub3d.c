@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cub3d.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:06:10 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/20 10:06:12 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:07:59 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	run_cub3d(t_master *master)
 	&master->img.llen, &master->img.en);
 	draw_background(master, &master->img);
 	txt_raycaster(master, &master->img);
-	draw_minimap(master, &master->img);
+	if (MINIMAP == 1)
+		draw_minimap(master, &master->img);
 	mlx_put_image_to_window(master->mlx.mlx_ptr, master->mlx.mlx_win, \
 	master->img.img, 0, 0);
 }
@@ -47,7 +48,8 @@ void	init_cub3d(t_master master)
 	draw_background(&master, &master.img);
 	init_rc(&master);
 	txt_raycaster(&master, &master.img);
-	draw_minimap(&master, &master.img);
+	if (MINIMAP == 1)
+		draw_minimap(&master, &master.img);
 	mlx_put_image_to_window(master.mlx.mlx_ptr, master.mlx.mlx_win, \
 	master.img.img, 0, 0);
 	mlx_hook(master.mlx.mlx_win, 17, 0, exit_gracefully, &master);
