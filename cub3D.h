@@ -77,6 +77,8 @@ typedef struct s_raycast
 	float		texty;
 	float		og_ray_x;
 	float		og_ray_y;
+	float		mod_step;
+	int			txtindex;
 }				t_raycast;
 
 typedef struct s_dda
@@ -93,8 +95,8 @@ typedef struct s_dda
 	float	x_offset;
 	int		hit;
 	float	ray_len_vert;
-	float	nTan;
-	float	aTan;
+	float	ntan;
+	float	atan;
 }				t_dda;
 
 typedef struct s_data
@@ -183,6 +185,23 @@ typedef struct t_master
 	t_minimap_coords	minimap;
 	t_keylog			keylog;
 }				t_master;
+
+//raycast_textured_utils.c
+void	wall_handler(t_raycast *rc, t_dda *dda, t_master *m);
+void	wall_scaler(t_raycast *rc, t_master *m);
+
+//raycast_textured.c
+void	init_raycast(t_raycast *raycast, t_master *m);
+void	init_draw_stripe(t_raycast *rc);
+void	draw_stripe(t_raycast *rc, t_img *img);
+void	txt_raycaster(t_master *m, t_img *img);
+
+//dda.c
+void	dda_horizontal(t_dda *dda, t_raycast *rc, t_master *m);
+void	dda_vertical(t_dda *dda, t_raycast *rc, t_master *m);
+void	dda_loop_horizontal(t_dda *d, t_master *m);
+void	dda_loop_vertical(t_dda *d, t_master *m);
+void	dda(t_raycast *rc, t_master *m);
 
 //movement.c
 void		strafe_left(t_update *up, t_master *master);
