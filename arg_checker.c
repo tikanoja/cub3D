@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   arg_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:03:28 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/20 10:03:31 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:07:25 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int    get_fd(char *map)
+int	get_fd(char *map)
 {
-    int fd;
+	int	fd;
 
-    fd = open(map, O_RDONLY);
-    if (fd == -1)
-    {
-        ft_putstr_fd("Error\n", 2);
-        printf("Please fix path/rights & thank you for your patience! :)\n");
-        exit(1);
-    }
-    return (fd);
+	fd = open(map, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error\n", 2);
+		printf("Please fix path/rights & thank you for your patience! :)\n");
+		exit(1);
+	}
+	return (fd);
 }
 
 int	is_it_whitespace(char c)
@@ -34,50 +34,43 @@ int	is_it_whitespace(char c)
 		return (0);
 }
 
-int are_there_any_whitespaces(char *str)
+int	are_there_any_whitespaces(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(str[i])
-    {
-        if (is_it_whitespace(str[i]) == 1)
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (is_it_whitespace(str[i]) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-void    arg_checker(int ac, char **av)
+void	arg_checker(int ac, char **av)
 {
-    int arglen;
+	int	arglen;
 
-    if (ac != 2)
-    {
-        ft_putstr_fd("Error\n", 2);
-        printf("Please give one (1) argument. (path to '.cub' file)\n");
-        exit (1);
-    }
-    else
-    {
-        arglen = ft_strlen(av[1]);
-        if (arglen <= 4)
-        {
-            ft_putstr_fd("Error\n", 2);
-            printf("Please give a valid map. (ex. 'map.cub' or './maps/maze.cub')\n");
-            exit (1);
-        }
-        else if (are_there_any_whitespaces(av[1]) == 1)
-        {
-            ft_putstr_fd("Error\n", 2);
-            printf("What are you trying to do?\n");
-            exit (1);
-        }
-        else if (ft_strncmp(&av[1][arglen - 4], ".cub", 4) != 0)
-        {
-            ft_putstr_fd("Error\n", 2);
-            printf("Please give a valid map. (ex. 'map.cub' or './maps/maze.cub')\n");
-            exit (1);
-        }
-    }
+	if (ac != 2)
+	{
+		ft_putstr_fd("Error\n", 2);
+		exitmsg("Please give one (1) argument. (path to '.cub' file)\n");
+	}
+	arglen = ft_strlen(av[1]);
+	if (arglen <= 4)
+	{
+		ft_putstr_fd("Error\n", 2);
+		exitmsg("Please give a valid map. (ex. './maps/maze.cub')\n");
+	}
+	else if (are_there_any_whitespaces(av[1]) == 1)
+	{
+		ft_putstr_fd("Error\n", 2);
+		exitmsg("What are you trying to do?\n");
+	}
+	else if (ft_strncmp(&av[1][arglen - 4], ".cub", 4) != 0)
+	{
+		ft_putstr_fd("Error\n", 2);
+		exitmsg("Please give a valid map. (ex. './maps/maze.cub')\n");
+	}
 }
