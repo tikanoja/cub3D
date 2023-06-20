@@ -133,6 +133,15 @@ typedef struct s_player
 	double	angle;
 }				t_player;
 
+typedef struct s_block
+{
+	int	end_x;
+	int	end_y;
+	int	color;
+	int	og_x;
+	int	og_y;
+}				t_block;
+
 typedef struct s_bres
 {
 	int	x;
@@ -175,14 +184,14 @@ typedef struct s_minimap_coords
 
 typedef struct s_keylog
 {
-	int	W;
-	int	A;
-	int	S;
-	int	D;
-	int	UP;
-	int	LEFT;
-	int	DOWN;
-	int	RIGHT;
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	up;
+	int	left;
+	int	down;
+	int	right;
 }				t_keylog;
 
 typedef struct t_master
@@ -196,21 +205,21 @@ typedef struct t_master
 }				t_master;
 
 //raycast_textured_utils.c
-void	wall_handler(t_raycast *rc, t_dda *dda, t_master *m);
-void	wall_scaler(t_raycast *rc, t_master *m);
+void		wall_handler(t_raycast *rc, t_dda *dda, t_master *m);
+void		wall_scaler(t_raycast *rc, t_master *m);
 
 //raycast_textured.c
-void	init_raycast(t_raycast *raycast, t_master *m);
-void	init_draw_stripe(t_raycast *rc);
-void	draw_stripe(t_raycast *rc, t_img *img);
-void	txt_raycaster(t_master *m, t_img *img);
+void		init_raycast(t_raycast *raycast, t_master *m);
+void		init_draw_stripe(t_raycast *rc);
+void		draw_stripe(t_raycast *rc, t_img *img);
+void		txt_raycaster(t_master *m, t_img *img);
 
 //dda.c
-void	dda_horizontal(t_dda *dda, t_raycast *rc, t_master *m);
-void	dda_vertical(t_dda *dda, t_raycast *rc, t_master *m);
-void	dda_loop_horizontal(t_dda *d, t_master *m);
-void	dda_loop_vertical(t_dda *d, t_master *m);
-void	dda(t_raycast *rc, t_master *m);
+void		dda_horizontal(t_dda *dda, t_raycast *rc, t_master *m);
+void		dda_vertical(t_dda *dda, t_raycast *rc, t_master *m);
+void		dda_loop_horizontal(t_dda *d, t_master *m);
+void		dda_loop_vertical(t_dda *d, t_master *m);
+void		dda(t_raycast *rc, t_master *m);
 
 //movement.c
 void		strafe_left(t_update *up, t_master *master);
@@ -227,11 +236,14 @@ void		free_textures(t_master *master, int flag);
 t_texture	load_image(t_master *master, char *path, t_img *img);
 void		process_textures(t_master *master);
 
-//run_cub3d.c
+//update_game.c
 int			is_wall(float x, float y, t_master *master, float buffer_distance);
 void		init_update(t_update *up);
 int			update_game(t_master *master);
+
+//run_cub3d.c
 void		run_cub3d(t_master *master);
+void		init_rc(t_master *master);
 void		init_cub3d(t_master master);
 
 //keys.c
@@ -244,10 +256,17 @@ void		draw_background(t_master *master, t_img *img);
 void		draw_block(t_master *master, t_img *img, t_minimap_coords coords);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
-//minimap.c
+//minimap_utils.c
 void		init_minimap_coords(t_minimap_coords *coords, t_master *master);
+void		init_get_player_coords(int *flag, int *i, t_master *m);
+void		init_draw_player(int *start_y, int *start_x, t_master *master);
+
+//minimap.c
+void		get_angle(t_master *master, char c);
+void		get_player_coords(t_master *m);
+void		draw_direction_arrow(t_master *master, t_img *img);
+void		draw_player(t_master *master, t_img *img);
 void		draw_minimap(t_master *master, t_img *img);
-void		get_player_coords(t_master *master);
 
 //errors.c
 int			exit_gracefully(t_master *master);
@@ -269,8 +288,35 @@ void		check_surrounding_walls(t_data *data);
 void		map_validator(t_data *data);
 
 //flood.c
-int		is_map_connected(t_data *data);
-void	flood_fill(t_data *data, int row, int col, t_flood *f);
+int			is_map_connected(t_data *data);
+void		flood_fill(t_data *data, int row, int col, t_flood *f);
+
+//map_parser_utils4.c
+void		init_map_parser(int *flag, char **line, char **map);
+int			rgb_to_int(int rgb[3]);
+void		check_double_map(t_data *data, char *line);
+void		init_parsing(t_data *data);
+
+//map_parser_utils3.c
+void		trim_and_split_color(t_data *data, char *color, int flag);
+int			check_for_color(t_data *data, char *line);
+int			check_if_filled(t_data *data, int hap);
+int			fill_to_struct(t_data *data, char *line);
+int			check_empty_line(char *line);
+
+//map_parser_utils2.c
+void		split_colors(char **temp, int *data);
+void		free_color_args(char **temp, t_data *data);
+int			check_for_num(char c);
+int			check_for_correct_number(char *num);
+void		check_for_color_argument(char **temp, t_data *data);
+
+//map_parser_utils.c
+char		*trim_direction(char *direction);
+int			dupcheck(char *wall, char *line, t_data *data);
+int			change_happened(int *happened);
+int			free_save_ret_happened(char *save, int happened);
+int			check_for_direction(t_data *data, char *line);
 
 //map_parser.c
 void		map_parser(t_data *data);

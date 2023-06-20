@@ -68,12 +68,12 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 
 void	draw_background(t_master *master, t_img *img)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
-	while(y < WIN_H)
+	while (y < WIN_H)
 	{
 		while (x < WIN_W)
 		{
@@ -90,31 +90,28 @@ void	draw_background(t_master *master, t_img *img)
 
 void	draw_block(t_master *master, t_img *img, t_minimap_coords coords)
 {
-	int end_x;
-	int end_y;
-	int color;
-	int og_x;
-	int og_y;
+	t_block	block;
 
-	if(master->data.map[coords.j][coords.i] ==  '1')
-		color = 0xD18700;
+	if (master->data.map[coords.j][coords.i] == '1')
+		block.color = 0xD18700;
 	else
-		color = 0x00A300;
-	end_x = coords.x + coords.block;
-	end_y = coords.y + coords.block;
-	og_x = coords.x;
-	og_y = coords.y;
-	while(coords.y <= end_y)
+		block.color = 0x00A300;
+	block.end_x = coords.x + coords.block;
+	block.end_y = coords.y + coords.block;
+	block.og_x = coords.x;
+	block.og_y = coords.y;
+	while (coords.y <= block.end_y)
 	{
-		while(coords.x <= end_x)
+		while (coords.x <= block.end_x)
 		{
-			if (coords.x == og_x || coords.x == end_x || coords.y == end_y || coords.y == og_y)
+			if (coords.x == block.og_x || coords.x == block.end_x || \
+			coords.y == block.end_y || coords.y == block.og_y)
 				my_mlx_pixel_put(img, coords.x, coords.y, 0xFFFFFF);
 			else
-				my_mlx_pixel_put(img, coords.x, coords.y, color);	
+				my_mlx_pixel_put(img, coords.x, coords.y, block.color);
 			coords.x++;
 		}
-		coords.x = og_x;
+		coords.x = block.og_x;
 		coords.y++;
 	}
 }
