@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:46:57 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/20 14:47:11 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:04:18 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ char	*trim_direction(char *direction)
 	direction = direction + 2;
 	while (is_it_whitespace(*direction) == 1)
 		direction++;
-	while (direction[i] && direction[i] != '\n')
+	while (direction[i] && direction[i] != '\n' && !is_it_whitespace(direction[i]))
 		i++;
-	if (direction[i] && direction[i] == '\n')
+	if (direction[i] && (direction[i] == '\n' || is_it_whitespace(direction[i])))
 		direction [i] = '\0';
 	return (direction);
 }
@@ -32,7 +32,6 @@ int	dupcheck(char *wall, char *line, t_data *data)
 	if (wall)
 	{
 		free(line);
-		ft_putstr_fd("Error\n", 2);
 		free_data(data, "Duplicate point of compass!\n");
 	}
 	return (0);

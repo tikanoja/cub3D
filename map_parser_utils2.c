@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:49:26 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/20 14:49:38 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:54:52 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	split_colors(char **temp, int *data)
+void	split_colors(char **temp, int *data, t_data *datastruct)
 {
 	int	i;
 
 	i = 0;
+	if (data[i] != -1)
+		free_data(datastruct, "Duplicate color argument\n");
 	while (temp[i])
 	{
 		data[i] = ft_atoi(temp[i]);
@@ -28,7 +30,6 @@ void	split_colors(char **temp, int *data)
 void	free_color_args(char **temp, t_data *data)
 {
 	free_char_arr(temp);
-	ft_putstr_fd("Error\n", 2);
 	free_data(data, "Wrong color argument!\n");
 }
 

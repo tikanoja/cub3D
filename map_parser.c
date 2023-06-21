@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 16:26:54 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 11:20:57 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:46:28 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	parsing_loop(char *line, char **map, int flag, t_data *data)
 		free(line);
 		line = get_next_line(data->fd);
 	}
+	if (filled == 0)
+		free_data(data, "Missing color/wall texture\n");
 }
 
 void	map_parser(t_data *data)
@@ -77,13 +79,13 @@ void	map_parser(t_data *data)
 		free_data(data, "Malloc failed!\n");
 	line = get_next_line(data->fd);
 	if (line == NULL)
-		free_data(data, "Malloc failed!\n");
+		free_data(data, "Empty file\n");
 	init_parsing(data);
 	parsing_loop(line, &map, flag, data);
 	close(data->fd);
 	data->map = ft_split(map, '\n');
 	if (data->map == NULL)
-		free_data_closed_fd(data, "Malloc failed!\n");
+		free_data_closed_fd(data, "Missing map info\n");
 	free(map);
 	data->f_int = rgb_to_int(data->floor);
 	data->s_int = rgb_to_int(data->sky);

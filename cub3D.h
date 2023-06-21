@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 16:09:04 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:05:56 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ int			fill_to_struct(t_data *data, char *line);
 int			check_empty_line(char *line);
 
 //map_parser_utils2.c
-void		split_colors(char **temp, int *data);
+void		split_colors(char **temp, int *data, t_data *datastruct);
 void		free_color_args(char **temp, t_data *data);
 int			check_for_num(char c);
 int			check_for_correct_number(char *num);

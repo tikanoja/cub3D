@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttikanoj <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:49:49 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/20 14:50:13 by ttikanoj         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:58:47 by tuukka           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	trim_colors(char **color)
+{
+	int start;
+	int end;
+	int index;
+	int i;
+	
+	index = 0;
+	while(color[index])
+	{
+		i = 0;
+		start = 0;
+		end = ft_strlen(color[index]) - 1;
+		while (color[index][start] && is_it_whitespace(color[index][start]))
+			start++;
+		while (color[index][end] && is_it_whitespace(color[index][end]))
+			end--;
+		while (start <= end)
+		{
+			color[index][i] = color[index][start];
+			i++;
+			start++;
+		}
+		color[index][i] = '\0';
+		index++;
+	}
+}
 
 void	trim_and_split_color(t_data *data, char *color, int flag)
 {
@@ -27,11 +55,12 @@ void	trim_and_split_color(t_data *data, char *color, int flag)
 	}
 	if (temp[2])
 		temp[2][ft_strlen(temp[2]) - 1] = '\0';
+	trim_colors(temp);
 	check_for_color_argument(temp, data);
 	if (flag == 1)
-		split_colors(temp, data->floor);
+		split_colors(temp, data->floor, data);
 	else
-		split_colors(temp, data->sky);
+		split_colors(temp, data->sky, data);
 	free(temp);
 }
 
@@ -94,8 +123,7 @@ int	fill_to_struct(t_data *data, char *line)
 	if (status == -1)
 	{
 		free(line);
-		ft_putstr_fd("Error\n", 2);
-		free_data(data, "Garbage values\n");
+		free_data(data, "Nonsense values / missing color or texture\n");
 	}
 	return (status);
 }
