@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/21 12:05:56 by tuukka           ###   ########.fr       */
+/*   Updated: 2023/07/03 12:36:24 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define BLOCKSIZE 320
 # define FOV 80
 # define GOD_MODE 1 //0 enables walking trough walls
-# define WALLDIST 4
+# define WALLDIST 2
 # define MINIMAP 1 //0 turns of minimap
 
 typedef struct s_flood
