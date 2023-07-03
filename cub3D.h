@@ -23,8 +23,8 @@
 # define WIN_W 1280
 # define WIN_H 960
 # define RAYS 320
-# define BLOCKSIZE 320
 # define FOV 80
+# define MOVEMENT_SPEED 12
 # define GOD_MODE 1 //0 enables walking trough walls
 # define WALLDIST 2
 # define MINIMAP 1 //0 turns of minimap
@@ -239,7 +239,7 @@ void		process_textures(t_master *master);
 
 //update_game.c
 int			is_wall(float x, float y, t_master *master, float buffer_distance);
-void		init_update(t_update *up);
+void		init_update(t_update *up, t_master *master);
 int			update_game(t_master *master);
 
 //run_cub3d.c

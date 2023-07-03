@@ -17,9 +17,9 @@ void	init_minimap_coords(t_minimap_coords *coords, t_master *master)
 	coords->x = WIN_W / master->data.mapsize[0] / 2;
 	coords->y = WIN_H / master->data.mapsize[1] / 2;
 	if (coords->x <= coords->y)
-		coords->block = coords->x;
+		coords->block = coords->x / 2;
 	else
-		coords->block = coords->y;
+		coords->block = coords->y / 2;
 	coords->x = 0;
 	coords->y = 0;
 	coords->i = 0;

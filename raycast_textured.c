@@ -42,14 +42,14 @@ void	init_draw_stripe(t_raycast *rc)
 void	draw_stripe(t_raycast *rc, t_img *img)
 {
 	init_draw_stripe(rc);
-	while (rc->x <= rc->stripe_end)
+	while (rc->x < rc->stripe_end)
 	{
 		rc->y = rc->wall_top;
 		rc->txtindex = floor(rc->textx);
 		rc->mod_step = rc->step;
 		while (rc->y <= rc->wall_bottom)
 		{
-			if (rc->x > 0 && rc->y > 0 && rc->x < WIN_W && rc->y < WIN_H)
+			if (rc->x >= 0 && rc->y >= 0 && rc->x < WIN_W && rc->y < WIN_H)
 				my_mlx_pixel_put(img, rc->x, rc->y, \
 				rc->texture->array[rc->txtindex]);
 			rc->y++;

@@ -35,9 +35,9 @@ int	is_wall(float x, float y, t_master *master, float buffer_distance)
 	return (0);
 }
 
-void	init_update(t_update *up)
+void	init_update(t_update *up, t_master *master)
 {
-	up->mspeed = 1.5;
+	up->mspeed = (float)master->minimap.block / MOVEMENT_SPEED;
 	up->updateflag = 0;
 	up->sign_x = 0;
 	up->sign_y = 0;
@@ -47,7 +47,7 @@ int	update_game(t_master *master)
 {
 	t_update	up;
 
-	init_update(&up);
+	init_update(&up, master);
 	if (master->keylog.w == 1 || master->keylog.up == 1)
 		forward(&up, master);
 	if (master->keylog.s == 1 || master->keylog.down == 1)
