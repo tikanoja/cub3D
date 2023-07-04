@@ -52,3 +52,17 @@ void	init_parsing(t_data *data)
 	data->sky[1] = -1;
 	data->sky[2] = -1;
 }
+
+int	check_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (is_it_whitespace(line[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}

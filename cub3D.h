@@ -22,7 +22,7 @@
 # include "./libft/libft.h"
 # define WIN_W 1280
 # define WIN_H 960
-# define RAYS 320
+# define RAYS 640
 # define FOV 80
 # define MOVEMENT_SPEED 12
 # define GOD_MODE 1 //0 enables walking trough walls
@@ -297,13 +297,13 @@ void		init_map_parser(int *flag, char **line, char **map);
 int			rgb_to_int(int rgb[3]);
 void		check_double_map(t_data *data, char *line);
 void		init_parsing(t_data *data);
+int			check_empty_line(char *line);
 
 //map_parser_utils3.c
 void		trim_and_split_color(t_data *data, char *color, int flag);
 int			check_for_color(t_data *data, char *line);
 int			check_if_filled(t_data *data, int hap);
 int			fill_to_struct(t_data *data, char *line);
-int			check_empty_line(char *line);
 
 //map_parser_utils2.c
 void		split_colors(char **temp, int *data, t_data *datastruct);

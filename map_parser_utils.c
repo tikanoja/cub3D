@@ -20,9 +20,11 @@ char	*trim_direction(char *direction)
 	direction = direction + 2;
 	while (is_it_whitespace(*direction) == 1)
 		direction++;
-	while (direction[i] && direction[i] != '\n' && !is_it_whitespace(direction[i]))
+	while (direction[i] && direction[i] != '\n' && \
+	!is_it_whitespace(direction[i]))
 		i++;
-	if (direction[i] && (direction[i] == '\n' || is_it_whitespace(direction[i])))
+	if (direction[i] && (direction[i] == '\n' \
+	|| is_it_whitespace(direction[i])))
 		direction [i] = '\0';
 	return (direction);
 }

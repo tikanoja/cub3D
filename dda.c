@@ -90,10 +90,10 @@ void	dda_loop_horizontal(t_dda *d, t_master *m)
 		d->ray_x_h = m->player.x;
 	if (d->ray_y_h > WIN_H || d->ray_y_h < 0)
 		d->ray_y_h = m->player.y;
-	if (d->ray_y_h == m->player.y || d->ray_x_h == m->player.x)
+	if (d->hit == 0 && (d->ray_y_h == m->player.y || d->ray_x_h == m->player.x))
 		d->ray_len_horz = 2147483647;
 	else
-		d->ray_len_horz = sqrt(pow(d->ray_y_h - m->player.y, 2) + \
+		d->ray_len_horz = sqrt(pow((d->ray_y_h + 0.0001) - m->player.y, 2) + \
 		pow(d->ray_x_h - m->player.x, 2));
 }
 
@@ -122,7 +122,7 @@ void	dda_loop_vertical(t_dda *d, t_master *m)
 	if (d->ray_y_v == m->player.y || d->ray_x_v == m->player.x)
 		d->ray_len_vert = 2147483647;
 	else
-		d->ray_len_vert = sqrt(pow(d->ray_x_v - m->player.x, 2) + \
+		d->ray_len_vert = sqrt(pow((d->ray_x_v + 0.0001) - m->player.x, 2) + \
 		pow(d->ray_y_v - m->player.y, 2));
 }
 

@@ -14,13 +14,13 @@
 
 void	trim_colors(char **color)
 {
-	int start;
-	int end;
-	int index;
-	int i;
-	
+	int	start;
+	int	end;
+	int	index;
+	int	i;
+
 	index = 0;
-	while(color[index])
+	while (color[index])
 	{
 		i = 0;
 		start = 0;
@@ -126,18 +126,4 @@ int	fill_to_struct(t_data *data, char *line)
 		free_data(data, "Nonsense values / missing color or texture\n");
 	}
 	return (status);
-}
-
-int	check_empty_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (is_it_whitespace(line[i]) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
 }

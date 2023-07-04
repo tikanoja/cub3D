@@ -56,7 +56,7 @@ void	wall_scaler(t_raycast *rc, t_master *m)
 	if (rc->fisheye_angle < 0)
 		rc->fisheye_angle = 2 * M_PI + rc->fisheye_angle;
 	if (rc->fisheye_angle > 2 * M_PI)
-		rc->fisheye_angle = rc->fisheye_angle - 2 * M_PI;
+		rc->fisheye_angle = 2 * M_PI - rc->fisheye_angle;
 	rc->ray_len = rc->ray_len * cos(rc->fisheye_angle);
 	rc->wall_height = m->minimap.block * 700 / rc->ray_len;
 	rc->wall_top = rc->halfwin - rc->wall_height / 2;
