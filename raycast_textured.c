@@ -46,7 +46,6 @@ void	draw_stripe(t_raycast *rc, t_img *img)
 
 	txtarrsize = rc->texture->height * rc->texture->width;
 	init_draw_stripe(rc);
-	printf("ray x %f, ray y %f\n", rc->ray_x, rc->ray_y);
 	if (rc->wall_bottom > WIN_H)
         rc->wall_bottom = WIN_H;
     if (rc->wall_top < 0)

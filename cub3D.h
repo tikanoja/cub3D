@@ -206,6 +206,7 @@ typedef struct t_master
 }				t_master;
 
 //raycast_textured_utils.c
+int			dda_arr_check(t_dda *d, t_master *m);
 void		wall_handler(t_raycast *rc, t_dda *dda, t_master *m);
 void		wall_scaler(t_raycast *rc, t_master *m);
 

@@ -68,8 +68,6 @@ void	dda_vertical(t_dda *dda, t_raycast *rc, t_master *m)
 	}
 }
 
-//ghost block check! If array index exists return 1 if not return 0 && replace is statements is both dda loops
-
 void	dda_loop_horizontal(t_dda *d, t_master *m)
 {
 	d->ray_len_horz = 0;
@@ -78,7 +76,7 @@ void	dda_loop_horizontal(t_dda *d, t_master *m)
 		d->map_x = (int)d->ray_x_h / m->minimap.block;
 		d->map_y = (int)d->ray_y_h / m->minimap.block;
 		if (d->map_x >= 0 && d->map_x < m->data.mapsize[0] && d->map_y >= 0 && \
-		d->map_y < m->data.mapsize[1] && m->data.map[d->map_y][d->map_x] == '1')
+		d->map_y < m->data.mapsize[1] && dda_arr_check(d, m) && m->data.map[d->map_y][d->map_x] == '1')
 			d->hit = 1;
 		else
 		{
@@ -107,7 +105,7 @@ void	dda_loop_vertical(t_dda *d, t_master *m)
 		d->map_x = (int)d->ray_x_v / m->minimap.block;
 		d->map_y = (int)d->ray_y_v / m->minimap.block;
 		if (d->map_x >= 0 && d->map_x < m->data.mapsize[0] && d->map_y >= 0 && \
-		d->map_y < m->data.mapsize[1] && m->data.map[d->map_y][d->map_x] == '1')
+		d->map_y < m->data.mapsize[1] && dda_arr_check(d, m) && m->data.map[d->map_y][d->map_x] == '1')
 			d->hit = 1;
 		else
 		{

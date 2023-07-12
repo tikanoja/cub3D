@@ -12,6 +12,25 @@
 
 #include "cub3D.h"
 
+int		dda_arr_check(t_dda *d, t_master *m)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (m->data.map[y][x])
+	{
+		if (x < d->map_x)
+			x++;
+		if (y < d->map_y)
+			y++;
+		if (x == d->map_x && y == d->map_y)
+			return (1);
+	}
+	return (0);
+}
+
 void	wall_handler(t_raycast *rc, t_dda *dda, t_master *m)
 {
 	if (dda->ray_len_horz < dda->ray_len_vert)
