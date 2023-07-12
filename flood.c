@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:30:28 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/06/20 12:50:23 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:55:51 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_connect(t_flood *f, t_data *data)
 		free_data_closed_fd(data, "Malloc failed!\n");
 	while (f->i < data->mapsize[1])
 	{
-		f->visited[f->i] = ft_calloc(data->mapsize[0], sizeof(int));
+		f->visited[f->i] = ft_calloc(ft_strlen(data->map[f->i]), sizeof(int));
 		if (f->visited[f->i] == NULL)
 		{
 			while (--f->i >= 0)
