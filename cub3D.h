@@ -15,9 +15,8 @@
 # include <unistd.h> //close, read, write
 # include <stdlib.h> //malloc, free, exit
 # include <stdio.h> //printf, perror
-# include <string.h> //strerror
-# include <math.h> //you already know
-# include <mlx.h> //unfortunately you already know
+# include <math.h> //math library
+# include <mlx.h> //minilibx library
 # include <fcntl.h> //open
 # include "./libft/libft.h"
 # define WIN_W 960
@@ -341,7 +340,5 @@ void		arg_checker(int ac, char **av);
 int			freeandexit(t_master *master);
 void		init_cub3d(t_master master);
 int			main(int ac, char **av);
-
-void		txt_raycaster(t_master *master, t_img *img);
 
 #endif
