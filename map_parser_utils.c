@@ -51,6 +51,16 @@ int	free_save_ret_happened(char *save, int happened)
 	return (happened);
 }
 
+void	fill_wall_elements(char **wall, char *save, t_data *data, char *line)
+{
+	*wall = ft_strdup(trim_direction(save));
+	if (*wall == NULL)
+	{
+		free(line);
+		free_data(data, "Wall element malloc failed!\n");
+	}
+}
+
 int    check_for_direction(t_data *data, char *line)
 {
     char    	*save;
@@ -72,16 +82,16 @@ int    check_for_direction(t_data *data, char *line)
     }
     if (ft_strncmp(save, "NO", 2) == 0 && \
     !dupcheck(data->wall[0], save, data) && change_happened(&happened))
-        data->wall[0] = ft_strdup(trim_direction(save));
+		fill_wall_elements(&data->wall[0], save, data, line);
     else if (ft_strncmp(save, "EA", 2) == 0 && \
     !dupcheck(data->wall[1], save, data) && change_happened(&happened))
-        data->wall[1] = ft_strdup(trim_direction(save));
+		fill_wall_elements(&data->wall[1], save, data, line);
     else if (ft_strncmp(save, "SO", 2) == 0 && \
     !dupcheck(data->wall[2], save, data) && change_happened(&happened))
-        data->wall[2] = ft_strdup(trim_direction(save));
+		fill_wall_elements(&data->wall[2], save, data, line);
     else if (ft_strncmp(save, "WE", 2) == 0 && \
     !dupcheck(data->wall[3], save, data) && change_happened(&happened))
-        data->wall[3] = ft_strdup(trim_direction(save));
+		fill_wall_elements(&data->wall[3], save, data, line);
     save -= save_pointer_index;
     return (free_save_ret_happened(save, happened));
 }
