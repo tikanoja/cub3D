@@ -296,9 +296,10 @@ int			is_map_connected(t_data *data);
 void		flood_fill(t_data *data, int row, int col, t_flood *f);
 
 //map_parser_utlis5.c
-void		fill_wall_elements(char **wall, char *save, t_data *data, char *line);
-int			free_save_ret_happened(char *save, int happened, int save_pointer_index);
-
+void		fill_wall_elements(char **wall, char *save, t_data *data, \
+			char *line);
+int			free_save_ret_happened(char *save, int happened, \
+			int save_pointer_index);
 
 //map_parser_utils4.c
 void		init_map_parser(int *flag, char **line, char **map);
