@@ -33,8 +33,8 @@ int	dupcheck(char *wall, char *line, t_data *data)
 {
 	if (wall)
 	{
-		free(line);
 		free_data(data, "Duplicate point of compass!\n");
+		free(line);
 	}
 	return (0);
 }
@@ -51,31 +51,37 @@ int	free_save_ret_happened(char *save, int happened)
 	return (happened);
 }
 
-int	check_for_direction(t_data *data, char *line)
+int    check_for_direction(t_data *data, char *line)
 {
-	char	*save;
-	int		happened;
+    char    	*save;
+    int        happened;
+    int        save_pointer_index;
 
-	happened = 0;
-	save = ft_strdup(line);
-	if (save == NULL)
-	{
-		free(line);
-		free_data(data, "Malloc failed\n");
-	}
-	while (is_it_whitespace(*save) == 1)
-		save++;
-	if (ft_strncmp(line, "NO", 2) == 0 && \
-	!dupcheck(data->wall[0], line, data) && change_happened(&happened))
-		data->wall[0] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line, "EA", 2) == 0 && \
-	!dupcheck(data->wall[1], line, data) && change_happened(&happened))
-		data->wall[1] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line, "SO", 2) == 0 && \
-	!dupcheck(data->wall[2], line, data) && change_happened(&happened))
-		data->wall[2] = ft_strdup(trim_direction(save));
-	else if (ft_strncmp(line, "WE", 2) == 0 && \
-	!dupcheck(data->wall[3], line, data) && change_happened(&happened))
-		data->wall[3] = ft_strdup(trim_direction(save));
-	return (free_save_ret_happened(save, happened));
+    happened = 0;
+    save_pointer_index = 0;
+    save = ft_strdup(line);
+    if (save == NULL)
+    {
+        free(line);
+        free_data(data, "Malloc failed\n");
+    }
+    while (is_it_whitespace(*save) == 1)
+    {
+        save++;
+        save_pointer_index++;
+    }
+    if (ft_strncmp(save, "NO", 2) == 0 && \
+    !dupcheck(data->wall[0], save, data) && change_happened(&happened))
+        data->wall[0] = ft_strdup(trim_direction(save));
+    else if (ft_strncmp(save, "EA", 2) == 0 && \
+    !dupcheck(data->wall[1], save, data) && change_happened(&happened))
+        data->wall[1] = ft_strdup(trim_direction(save));
+    else if (ft_strncmp(save, "SO", 2) == 0 && \
+    !dupcheck(data->wall[2], save, data) && change_happened(&happened))
+        data->wall[2] = ft_strdup(trim_direction(save));
+    else if (ft_strncmp(save, "WE", 2) == 0 && \
+    !dupcheck(data->wall[3], save, data) && change_happened(&happened))
+        data->wall[3] = ft_strdup(trim_direction(save));
+    save -= save_pointer_index;
+    return (free_save_ret_happened(save, happened));
 }

@@ -23,9 +23,9 @@
 # define WIN_W 1280
 # define WIN_H 960
 # define RAYS 640
-# define FOV 80
+# define FOV 70
 # define MOVEMENT_SPEED 12
-# define GOD_MODE 1 //0 enables walking trough walls
+# define GOD_MODE 0 //0 enables walking trough walls
 # define WALLDIST 2
 # define MINIMAP 1 //0 turns of minimap
 
@@ -229,6 +229,7 @@ void		rotate_left(t_update *up, t_master *master);
 void		rotate_right(t_update *up, t_master *master);
 
 //movement2.c
+int			window_check(t_update *up);
 void		forward(t_update *up, t_master *master);
 void		backward(t_update *up, t_master *master);
 

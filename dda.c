@@ -68,6 +68,8 @@ void	dda_vertical(t_dda *dda, t_raycast *rc, t_master *m)
 	}
 }
 
+//ghost block check! If array index exists return 1 if not return 0 && replace is statements is both dda loops
+
 void	dda_loop_horizontal(t_dda *d, t_master *m)
 {
 	d->ray_len_horz = 0;

@@ -28,8 +28,9 @@ void	strafe_left(t_update *up, t_master *master)
 	else if (master->player.angle > M_PI && \
 	master->player.angle <= 3 * M_PI / 2)
 		up->sign_y = -WALLDIST;
-	if (!is_wall(up->new_x - up->sign_x, up->new_y - up->sign_y \
-	, master, master->minimap.block) || GOD_MODE == 0)
+	if ((!is_wall(up->new_x - up->sign_x, up->new_y - up->sign_y \
+	, master, master->minimap.block) && !window_check(up)) || \
+	(GOD_MODE == 0 && !window_check(up)))
 	{
 		master->player.x = up->new_x;
 		master->player.y = up->new_y;
@@ -53,8 +54,9 @@ void	strafe_right(t_update *up, t_master *master)
 	else if (master->player.angle > M_PI && \
 	master->player.angle <= 3 * M_PI / 2)
 		up->sign_y = WALLDIST;
-	if (!is_wall(up->new_x - up->sign_x, up->new_y - \
-	up->sign_y, master, master->minimap.block) || GOD_MODE == 0)
+	if ((!is_wall(up->new_x - up->sign_x, up->new_y - \
+	up->sign_y, master, master->minimap.block) && !window_check(up)) || \
+	(GOD_MODE == 0 && !window_check(up)))
 	{
 		master->player.x = up->new_x;
 		master->player.y = up->new_y;

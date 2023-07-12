@@ -37,8 +37,16 @@ void	free_data(t_data *data, char *msg)
 	close(data->fd);
 	if (data && data->map)
 		free_char_arr(data->map);
+	if (data && data->wall[0])
+		free(data->wall[0]);
+	if (data && data->wall[1])
+		free(data->wall[1]);
+	if (data && data->wall[2])
+		free(data->wall[2]);
+	if (data && data->wall[3])
+		free(data->wall[3]);
 	if (data && data->wall)
-		free_char_arr(data->wall);
+		free(data->wall);
 	exitmsg(msg);
 }
 
