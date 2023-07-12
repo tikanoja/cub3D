@@ -12,10 +12,10 @@
 
 #include "cub3D.h"
 
-int		dda_arr_check(t_dda *d, t_master *m)
+int	dda_arr_check(t_dda *d, t_master *m)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;

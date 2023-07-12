@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-int		window_check(t_update *up)
+int	window_check(t_update *up)
 {
 	if (up->new_x <= 0 || up->new_y <= 0)
 		return (1);

@@ -34,35 +34,32 @@ void	init_raycast(t_raycast *raycast, t_master *m)
 
 void	init_draw_stripe(t_raycast *rc)
 {
-	rc->step = 1.0 * rc->texture->height / (float)rc->wall_height;
+	rc->step = rc->texture->height / (float)rc->wall_height;
 	rc->mod_step = rc->step;
 	rc->txtindex = rc->textx;
+	rc->txtarrsize = rc->texture->height * rc->texture->width;
+}
+
+void	draw_stripe_helper(t_raycast *rc)
+{
+	rc->y = rc->wall_top;
+	rc->txtindex = rc->textx;
+	rc->mod_step = 0;
 }
 
 void	draw_stripe(t_raycast *rc, t_img *img)
 {
-	long	txtarrsize;
-	int txt_index_mod_step = 0;
-
-	txtarrsize = rc->texture->height * rc->texture->width;
 	init_draw_stripe(rc);
-	if (rc->wall_bottom > WIN_H)
-        rc->wall_bottom = WIN_H;
-    if (rc->wall_top < 0)
-        txt_index_mod_step = round(abs(rc->wall_top) * rc->step) * (rc->texture->width);
-    while (rc->x < rc->stripe_end)
-    {
-        rc->y = rc->wall_top;
-        if (rc->wall_top < 0)
-            rc->y = 0;
-        rc->txtindex = rc->textx + txt_index_mod_step;
-        rc->mod_step = rc->step;
+	while (rc->x < rc->stripe_end)
+	{
+		draw_stripe_helper(rc);
 		while (rc->y <= rc->wall_bottom && rc->y < WIN_H)
 		{
-			if (rc->txtindex > txtarrsize)
-				rc->txtindex = txtarrsize - rc->texture->width + rc->textx;
+			if (rc->txtindex > rc->txtarrsize)
+				rc->txtindex = rc->txtarrsize - rc->texture->width + rc->textx;
 			if (rc->x >= 0 && rc->y >= 0 && rc->x < WIN_W && rc->y < WIN_H)
-				my_mlx_pixel_put(img, rc->x, rc->y, rc->texture->array[rc->txtindex]);
+				my_mlx_pixel_put(img, rc->x, rc->y, \
+				rc->texture->array[rc->txtindex]);
 			rc->y++;
 			if (rc->mod_step < 1)
 				rc->mod_step = rc->mod_step + rc->step;
