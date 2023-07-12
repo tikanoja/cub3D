@@ -95,3 +95,4 @@ int    check_for_direction(t_data *data, char *line)
     save -= save_pointer_index;
     return (free_save_ret_happened(save, happened));
 }
+
