@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/07/03 12:36:24 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:02:14 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # include <mlx.h> //unfortunately you already know
 # include <fcntl.h> //open
 # include "./libft/libft.h"
-# define WIN_W 1280
-# define WIN_H 960
-# define RAYS 640
+# define WIN_W 960
+# define WIN_H 720
+# define RAYS 480
 # define FOV 70
 # define MOVEMENT_SPEED 12
 # define GOD_MODE 0 //0 enables walking trough walls
-# define WALLDIST 2
-# define MINIMAP 1 //0 turns of minimap
+# define WALLDIST 5
+# define MINIMAP 0 //0 turns of minimap
 
 typedef struct s_flood
 {
@@ -89,6 +89,7 @@ typedef struct s_raycast
 	float		og_ray_y;
 	float		mod_step;
 	int			txtindex;
+	int			txtarrsize;
 }				t_raycast;
 
 typedef struct s_dda
@@ -294,6 +295,11 @@ void		map_validator(t_data *data);
 int			is_map_connected(t_data *data);
 void		flood_fill(t_data *data, int row, int col, t_flood *f);
 
+//map_parser_utlis5.c
+void		fill_wall_elements(char **wall, char *save, t_data *data, char *line);
+int			free_save_ret_happened(char *save, int happened, int save_pointer_index);
+
+
 //map_parser_utils4.c
 void		init_map_parser(int *flag, char **line, char **map);
 int			rgb_to_int(int rgb[3]);
@@ -315,10 +321,9 @@ int			check_for_correct_number(char *num);
 void		check_for_color_argument(char **temp, t_data *data);
 
 //map_parser_utils.c
+int			change_happened(int *happened);
 char		*trim_direction(char *direction);
 int			dupcheck(char *wall, char *line, t_data *data);
-int			change_happened(int *happened);
-int			free_save_ret_happened(char *save, int happened);
 int			check_for_direction(t_data *data, char *line);
 
 //map_parser.c

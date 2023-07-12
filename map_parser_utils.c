@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parser_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tuukka <tuukka@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:46:57 by ttikanoj          #+#    #+#             */
-/*   Updated: 2023/06/21 12:04:18 by tuukka           ###   ########.fr       */
+/*   Updated: 2023/07/12 18:06:20 by jaurasma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,54 +45,37 @@ int	change_happened(int *happened)
 	return (1);
 }
 
-int	free_save_ret_happened(char *save, int happened)
+void	free_data_and_line(t_data *data, char *line)
 {
-	free(save);
-	return (happened);
+	free(line);
+	free_data(data, "Malloc failed\n");
 }
 
-void	fill_wall_elements(char **wall, char *save, t_data *data, char *line)
+int	check_for_direction(t_data *data, char *line)
 {
-	*wall = ft_strdup(trim_direction(save));
-	if (*wall == NULL)
-	{
-		free(line);
-		free_data(data, "Wall element malloc failed!\n");
-	}
-}
+	char	*save;
+	int		happened;
+	int		save_pointer_index;
 
-int    check_for_direction(t_data *data, char *line)
-{
-    char    	*save;
-    int        happened;
-    int        save_pointer_index;
-
-    happened = 0;
-    save_pointer_index = 0;
-    save = ft_strdup(line);
-    if (save == NULL)
-    {
-        free(line);
-        free_data(data, "Malloc failed\n");
-    }
-    while (is_it_whitespace(*save) == 1)
-    {
-        save++;
-        save_pointer_index++;
-    }
-    if (ft_strncmp(save, "NO", 2) == 0 && \
-    !dupcheck(data->wall[0], save, data) && change_happened(&happened))
+	happened = 0;
+	save_pointer_index = 0;
+	save = ft_strdup(line);
+	if (save == NULL)
+		free_data_and_line(data, line);
+	while (is_it_whitespace(save[save_pointer_index]) == 1)
+		save_pointer_index++;
+	save += save_pointer_index;
+	if (ft_strncmp(save, "NO", 2) == 0 && \
+	!dupcheck(data->wall[0], save, data) && change_happened(&happened))
 		fill_wall_elements(&data->wall[0], save, data, line);
-    else if (ft_strncmp(save, "EA", 2) == 0 && \
-    !dupcheck(data->wall[1], save, data) && change_happened(&happened))
+	else if (ft_strncmp(save, "EA", 2) == 0 && \
+	!dupcheck(data->wall[1], save, data) && change_happened(&happened))
 		fill_wall_elements(&data->wall[1], save, data, line);
-    else if (ft_strncmp(save, "SO", 2) == 0 && \
-    !dupcheck(data->wall[2], save, data) && change_happened(&happened))
+	else if (ft_strncmp(save, "SO", 2) == 0 && \
+	!dupcheck(data->wall[2], save, data) && change_happened(&happened))
 		fill_wall_elements(&data->wall[2], save, data, line);
-    else if (ft_strncmp(save, "WE", 2) == 0 && \
-    !dupcheck(data->wall[3], save, data) && change_happened(&happened))
+	else if (ft_strncmp(save, "WE", 2) == 0 && \
+	!dupcheck(data->wall[3], save, data) && change_happened(&happened))
 		fill_wall_elements(&data->wall[3], save, data, line);
-    save -= save_pointer_index;
-    return (free_save_ret_happened(save, happened));
+	return (free_save_ret_happened(save, happened, save_pointer_index));
 }
-
