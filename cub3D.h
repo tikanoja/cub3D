@@ -6,7 +6,7 @@
 /*   By: jaurasma <jaurasma@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:12:00 by jaurasma          #+#    #+#             */
-/*   Updated: 2023/07/12 18:02:14 by jaurasma         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:45:06 by ttikanoj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # define RAYS 480
 # define FOV 70
 # define MOVEMENT_SPEED 12
-# define GOD_MODE 0 //0 enables walking trough walls
-# define WALLDIST 5
-# define MINIMAP 0 //0 turns of minimap
+# define GOD_MODE 1 //0 enables walking trough walls
+# define WALLDIST 2
+# define MINIMAP 1 //0 turns off minimap
 
 typedef struct s_flood
 {
