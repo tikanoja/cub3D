@@ -6,7 +6,7 @@
 
 `cub3d` is a project at Ecole 42 inspired by the iconic Wolfenstein 3D. This project focuses on creating a game engine that will utilize raycasting to create a 3D maze in a 2D environment. The player is then able to navigate within this area.
 
-<img src="imgs/irssi.png" width="80%" align="center">
+<img src="imgs/cub3d.gif" width="80%" align="center">
 
 ## Description
 
@@ -21,15 +21,8 @@ The `cub3d` project is a challenging graphics programming exercise. The main les
 
 ## Screenshots
 
-A few screenshots of the game running.
-
-
-### How it works
-
-
-<img src="imgs/server_client_setup.png" width="80%" align="center">
-<img src="imgs/polling_loop.png" width="80%" align="center">
-<img src="imgs/message_forwarding.png" width="80%" align="center">
+<img src="imgs/cub3d1.png" width="80%" align="center">
+<img src="imgs/cub3d2.png" width="80%" align="center">
 
 ## Prerequisites
 
